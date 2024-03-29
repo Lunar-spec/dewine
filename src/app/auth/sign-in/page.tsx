@@ -1,11 +1,15 @@
 "use client";
 import Link from "next/link";
-import { FormEvent, useState } from "react";
-import { FaHome } from "react-icons/fa";
+import { useState } from "react";
+import { FaGithub, FaHome } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
+import { signIn } from "next-auth/react";
 
 const SignIn = () => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
+
+  
 
   // TODO NextAuth social Login Github and google
   // TODO create backend api to login
@@ -16,9 +20,7 @@ const SignIn = () => {
 
   const handleLogin = () => {
     console.log("login");
-    
-  }
-
+  };
 
   return (
     <div className="flex-center h-screen">
@@ -65,11 +67,28 @@ const SignIn = () => {
           <span className="px-4">OR</span>
           <span className="border-b border-gray-300 flex-grow"></span>
         </div>
-        <div>Social SignIn</div>
-
+        <div className="flex-center flex-col gap-4">
+          Sign up with:
+          <div className="flex-center flex-row gap-8">
+            <button
+              className="flex flex-row items-center gap-2 rounded px-4 py-2 hover:bg-brand-primary"
+              onClick={() => signIn("github")}
+            >
+              <FaGithub className="text-2xl" />
+              GitHub
+            </button>
+            <button
+              className="flex flex-row items-center gap-2 rounded px-4 py-2 hover:bg-brand-primary"
+              onClick={() => signIn("google")}
+            >
+              <FcGoogle className="text-2xl" />
+              Google
+            </button>
+          </div>
+        </div>
         <div>
           Don&apos;t have an account?
-          <Link href={"/sign-up"} className="text-brand-primary">
+          <Link href={"/auth/sign-up"} className="text-brand-primary">
             {" "}
             Register{" "}
           </Link>

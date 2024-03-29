@@ -1,21 +1,25 @@
 "use client";
 import Dropzone from "@/components/shared/Dropzone/Dropzone";
 import Link from "next/link";
-import { FormEvent, useState } from "react";
-import { FaHome } from "react-icons/fa";
+import { useState } from "react";
+import { FaGithub, FaHome } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
+import { signIn } from "next-auth/react";
+import { auth } from "@/auth";
 
 const SignUp = () => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
 
-  // TODO NextAuth social Login Github and google
   // TODO create backend api to login
   // TODO is cookie contains authorization then redirect to home page else show login
   // TODO use zod in backend api to validate user credentials
   // TODO add to middleware to check if user is logged in
   // TODO add toast
-  //TODO show zod errors
+  // TODO show zod errors
+
+  // const session = auth();
 
   const handleRegister = () => {
     console.log("register");
@@ -84,11 +88,28 @@ const SignUp = () => {
           <span className="px-4">OR</span>
           <span className="border-b border-gray-300 flex-grow"></span>
         </div>
-        <div>Social SignUp</div>
-
+        <div className="flex-center flex-col gap-4">
+          Sign up with:
+          <div className="flex-center flex-row gap-8">
+            <button
+              className="flex flex-row items-center gap-2 rounded px-4 py-2 hover:bg-brand-primary"
+              onClick={() => signIn("github")}
+            >
+              <FaGithub className="text-2xl" />
+              GitHub
+            </button>
+            <button
+              className="flex flex-row items-center gap-2 rounded px-4 py-2 hover:bg-brand-primary"
+              onClick={() => signIn("google")}
+            >
+              <FcGoogle className="text-2xl" />
+              Google
+            </button>
+          </div>
+        </div>
         <div>
           Already have an account?
-          <Link href={"/sign-in"} className="text-brand-primary">
+          <Link href={"/auth/sign-in"} className="text-brand-primary">
             {" "}
             Login{" "}
           </Link>

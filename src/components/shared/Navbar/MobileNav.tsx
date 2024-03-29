@@ -41,7 +41,7 @@ const MobileNav = () => {
                 <Link href={link.href}>{link.text}</Link>
               </li>
             ))}
-            <Link href={"/sign-in"}>Login</Link>
+            <Link href={"/auth/sign-in"}>Sign-In</Link>
             {/* //TODO only after authentication */}
             <Link href={"/profile"}>My Profile</Link>
           </SheetClose>
