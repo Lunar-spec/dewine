@@ -1,26 +1,43 @@
 "use client";
 import Link from "next/link";
-import { useState } from "react";
-import { FaGithub, FaHome } from "react-icons/fa";
-import { FcGoogle } from "react-icons/fc";
-import { signIn } from "next-auth/react";
+import { FaHome } from "react-icons/fa";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { loginUserSchema } from "@/lib/validator";
+import { useToast } from "@/components/ui/use-toast";
+
+import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import SocialButtons from "@/components/shared/SocialButton/SocialButtons";
 
 const SignIn = () => {
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const { toast } = useToast();
+  const form = useForm<z.infer<typeof loginUserSchema>>({
+    resolver: zodResolver(loginUserSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
 
-  
+  function onSubmit(values: z.infer<typeof loginUserSchema>) {
+    console.log(values);
 
-  // TODO NextAuth social Login Github and google
-  // TODO create backend api to login
-  // TODO is cookie contains authorization then redirect to home page else show login
-  // TODO use zod in backend api to validate user credentials
-  // TODO add to middleware to check if user is logged in
-  // TODO add toast
+    toast({
+      title: "You've signed in.",
+    });
+  }
 
-  const handleLogin = () => {
-    console.log("login");
-  };
+  // TODO server actions for logging in with toast on success or error
 
   return (
     <div className="flex-center h-screen">
@@ -34,58 +51,56 @@ const SignIn = () => {
           </Link>
           <p className="h3-bold">Sign In</p>
         </div>
-        <form onSubmit={handleLogin} className="flex flex-col gap-8 w-4/5">
-          <input
-            name="email"
-            type="text"
-            placeholder="Email"
-            className="border-b border-white bg-transparent focus-within:outline-none p-2 text-lg"
-          />
-          <input
-            name="password"
-            type="password"
-            placeholder="Password"
-            className="border-b border-white bg-transparent focus-within:outline-none p-2 text-lg"
-          />
-          <button
-            disabled={loading}
-            type="submit"
-            className={`bg-brand-primary text-white py-2 text-lg rounded ${
-              loading ? "opacity-50 cursor-not-allowed" : null
-            }`}
+        <Form {...form}>
+          <form
+            // action={checkCredentials}
+            // onSubmit={form.handleSubmit(onSubmit)}
+            className="flex-center flex-col gap-8 w-full"
           >
-            {loading ? "Submitting..." : "Sign In"}
-          </button>
-          {error && (
-            <div className="text-brand-primary text-center px-4 py-2">
-              {error}
-            </div>
-          )}
-        </form>
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem className="w-3/4">
+                  <FormControl>
+                    <Input
+                      placeholder="Email"
+                      {...field}
+                      className="text-lg h-max"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem className="w-3/4">
+                  <FormControl>
+                    <Input
+                      placeholder="Password"
+                      type="password"
+                      {...field}
+                      className="text-lg h-max"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button type="submit" className="rounded-[1px] text-lg">
+              Sign In
+            </Button>
+          </form>
+        </Form>
         <div className="flex justify-center items-center w-3/4">
           <span className="border-b border-gray-300 flex-grow"></span>
           <span className="px-4">OR</span>
           <span className="border-b border-gray-300 flex-grow"></span>
         </div>
-        <div className="flex-center flex-col gap-4">
-          Sign up with:
-          <div className="flex-center flex-row gap-8">
-            <button
-              className="flex flex-row items-center gap-2 rounded px-4 py-2 hover:bg-brand-primary"
-              onClick={() => signIn("github")}
-            >
-              <FaGithub className="text-2xl" />
-              GitHub
-            </button>
-            <button
-              className="flex flex-row items-center gap-2 rounded px-4 py-2 hover:bg-brand-primary"
-              onClick={() => signIn("google")}
-            >
-              <FcGoogle className="text-2xl" />
-              Google
-            </button>
-          </div>
-        </div>
+        <SocialButtons mode="Sign In" />
         <div>
           Don&apos;t have an account?
           <Link href={"/auth/sign-up"} className="text-brand-primary">

@@ -27,8 +27,7 @@ export type CreateUserParams = {
     email: string;
     password: string;
     img?: string | null;
-    token?: string | null;
-    role: "user" | "admin";
+    role?: "user" | "admin";
     createdAt: Date;
     updatedAt: Date;
 }
