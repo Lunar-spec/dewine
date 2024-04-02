@@ -8,6 +8,8 @@ import { z } from "zod";
 import { loginUserSchema } from "@/lib/validator";
 import { useToast } from "@/components/ui/use-toast";
 
+import { redirect, useSearchParams } from "next/navigation";
+
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -18,9 +20,20 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import SocialButtons from "@/components/shared/SocialButton/SocialButtons";
+import { checkCredentials } from "@/lib/actions/users.action";
 
 const SignIn = () => {
   const { toast } = useToast();
+  const searchParams = useSearchParams();
+
+  const urlError =
+    searchParams.get("error") === "OAuthAccountNotLinked"
+      ? {
+          title: "Email already in use with different provider",
+          description: "Please use different Email",
+        }
+      : "";
+
   const form = useForm<z.infer<typeof loginUserSchema>>({
     resolver: zodResolver(loginUserSchema),
     defaultValues: {
@@ -30,18 +43,31 @@ const SignIn = () => {
   });
 
   function onSubmit(values: z.infer<typeof loginUserSchema>) {
-    console.log(values);
-
-    toast({
-      title: "You've signed in.",
+    checkCredentials(values).then((data) => {
+      if (data?.error) {
+        toast({
+          title: data?.error,
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Logged In!",
+          description: "You've signed in successfully.",
+        });
+      }
     });
   }
-
-  // TODO server actions for logging in with toast on success or error
+  if (urlError) {
+    toast({
+      ...urlError,
+      variant: "destructive",
+    });
+    redirect("/auth/sign-in");
+  }
 
   return (
-    <div className="flex-center h-screen">
-      <div className="bg-white/10 w-3/4 md:w-1/3 flex-col flex-center gap-8 p-4 rounded">
+    <article className="flex-center h-screen">
+      <section className="bg-white/10 w-3/4 md:w-1/3 flex-col flex-center gap-8 p-4 rounded">
         <div className="flex relative flex-row items-center justify-center w-full">
           <Link
             href={"/"}
@@ -53,8 +79,7 @@ const SignIn = () => {
         </div>
         <Form {...form}>
           <form
-            // action={checkCredentials}
-            // onSubmit={form.handleSubmit(onSubmit)}
+            onSubmit={form.handleSubmit(onSubmit)}
             className="flex-center flex-col gap-8 w-full"
           >
             <FormField
@@ -109,8 +134,8 @@ const SignIn = () => {
           </Link>
           Now
         </div>
-      </div>
-    </div>
+      </section>
+    </article>
   );
 };
 

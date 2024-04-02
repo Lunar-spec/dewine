@@ -1,5 +1,4 @@
 "use client";
-import Dropzone from "@/components/shared/Dropzone/Dropzone";
 import Link from "next/link";
 import { FaHome } from "react-icons/fa";
 
@@ -19,33 +18,94 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import SocialButtons from "@/components/shared/SocialButton/SocialButtons";
+import { useState } from "react";
+import { registerUser } from "@/lib/actions/users.action";
+import { FileUploader } from "@/components/shared/FileUploader/FileUploader";
+import { useUploadThing } from "@/lib/uploadthing";
+import { redirect, useRouter, useSearchParams } from "next/navigation";
 
 const SignUp = () => {
+  const router = useRouter();
   const { toast } = useToast();
+  const [files, setFiles] = useState<File[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const searchParams = useSearchParams();
+
+  const urlError =
+    searchParams.get("error") === "OAuthAccountNotLinked"
+      ? {
+          title: "Email already in use with different provider",
+          description: "Please use different Email",
+        }
+      : "";
+
+  if (urlError) {
+    toast({
+      ...urlError,
+      variant: "destructive",
+    });
+    redirect("/auth/sign-in");
+  }
+
+  const { startUpload } = useUploadThing("imageUploader");
+
   const form = useForm<z.infer<typeof newUserSchema>>({
     resolver: zodResolver(newUserSchema),
     defaultValues: {
-      first_name: "",
-      last_name: "",
+      name: "",
       email: "",
       password: "",
-      img: "",
+      image: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof newUserSchema>) {
-    console.log(values);
+  const onSubmit = async (values: z.infer<typeof newUserSchema>) => {
+    // console.log(values);
+    setIsLoading(true);
+    let uploadedImageUrl = values.image;
+    // console.log(files);
 
-    toast({
-      title: "Signed up.",
-      description: "Please check your email to verify your account.",
-    });
-  }
-  // TODO server actions for signing up with toast on success or error
+    if (files.length > 0) {
+      const uploadedImages = await startUpload(files);
+      // console.log(uploadedImages);
+      if (!uploadedImages) {
+        return;
+      }
+      uploadedImageUrl = uploadedImages[0].url;
+    }
+    values.image = uploadedImageUrl;
+    // console.log(values);
+    try {
+      registerUser(values).then((data) => {
+        // console.log(data);
+        if (data?.success) {
+          toast({
+            title: "Signed up.",
+            description: "Please check your email to verify your account.",
+          });
+          router.push("/auth/sign-in");
+        } else {
+          toast({
+            title: data?.error,
+            variant: "destructive",
+          });
+        }
+      });
+    } catch (error) {
+      console.log(error);
+      toast({
+        title: "Something went wrong.",
+        description: "Please try again later.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
-    <div className="flex-center p-4">
-      <div className="bg-white/10 w-full md:w-3/4 flex-col flex-center gap-8 p-4 rounded">
+    <article className="flex-center p-4">
+      <section className="bg-white/10 w-full md:w-3/4 flex-col flex-center gap-8 p-4 rounded">
         <div className="flex relative flex-row items-center justify-center w-full">
           <Link
             href={"/"}
@@ -57,19 +117,22 @@ const SignUp = () => {
         </div>
         <Form {...form}>
           <form
-            // action={createNewUser}
-            // onSubmit={form.handleSubmit(onSubmit)}
+            onSubmit={form.handleSubmit(onSubmit)}
             className="flex-center flex-col gap-8 md:w-3/4"
           >
             <div className="flex-center md:flex-row flex-col gap-4 w-full">
               <div className="md:w-3/4 flex-center">
                 <FormField
                   control={form.control}
-                  name="img"
+                  name="image"
                   render={({ field }) => (
-                    <FormItem className="w-3/4">
-                      <FormControl>
-                        <Dropzone setImage={field.onChange} />
+                    <FormItem className="lg:w-3/4">
+                      <FormControl className="h-64">
+                        <FileUploader
+                          onFieldChange={field.onChange}
+                          imageUrl={field.value}
+                          setFiles={setFiles}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -79,28 +142,12 @@ const SignUp = () => {
               <div className="md:w-3/4 w-full flex-center flex-col gap-8">
                 <FormField
                   control={form.control}
-                  name="first_name"
+                  name="name"
                   render={({ field }) => (
                     <FormItem className="w-3/4">
                       <FormControl>
                         <Input
-                          placeholder="First Name"
-                          {...field}
-                          className="text-lg h-max"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="last_name"
-                  render={({ field }) => (
-                    <FormItem className="w-3/4">
-                      <FormControl>
-                        <Input
-                          placeholder="Last Name"
+                          placeholder="Name"
                           {...field}
                           className="text-lg h-max"
                         />
@@ -144,8 +191,12 @@ const SignUp = () => {
                 />
               </div>
             </div>
-            <Button type="submit" className="rounded-[1px] text-lg">
-              Sign Up
+            <Button
+              disabled={isLoading}
+              type="submit"
+              className="rounded-[1px] text-lg"
+            >
+              {isLoading ? "Submitting..." : "Sign Up"}
             </Button>
           </form>
         </Form>
@@ -163,8 +214,13 @@ const SignUp = () => {
           </Link>
           Now
         </div>
-      </div>
-    </div>
+      </section>
+      {isLoading && (
+        <div className="absolute text-xl font-medium inset-0 cursor-not-allowed flex justify-center items-center bg-black/80">
+          Submitting...
+        </div>
+      )}
+    </article>
   );
 };
 

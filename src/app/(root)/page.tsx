@@ -6,7 +6,7 @@ import Image from "next/image";
 const Home = () => {
   return (
     <div>
-      <div
+      <article
         id="landing"
         className="h-[40rem] !scroll-smooth overflow-x-hidden relative bg-glass md:bg-oneFourth bg-half bg-no-repeat bg-center"
       >
@@ -27,18 +27,18 @@ const Home = () => {
             </span>
           </div>
         </div>
-        <div className="absolute text-lg top-1/2 tracking-wider right-0 transform -translate-y-1/2 translate-x-16 rotate-90">
+        <aside className="absolute text-lg top-1/2 tracking-wider right-0 transform -translate-y-1/2 translate-x-16 rotate-90">
           <span className="text-brand-primary">Vintage</span> Revelations
-        </div>
-      </div>
+        </aside>
+      </article>
       {/* About Section */}
-      <div id="about" className="flex-center flex-col gap-8 px-16 py-4">
-        <div className="h2-bold flex justify-center items-center w-full">
+      <article id="about" className="flex-center flex-col gap-8 px-16 py-4">
+        <section className="h2-bold flex justify-center items-center w-full">
           <span className="border-b border-gray-300 flex-grow"></span>
           <span className="px-4">Who are we?</span>
           <span className="border-b border-gray-300 flex-grow"></span>
-        </div>
-        <div className="flex xl:flex-row flex-col w-full justify-center items-center gap-16">
+        </section>
+        <section className="flex xl:flex-row flex-col w-full justify-center items-center gap-16">
           <Image
             src={"/assets/glass4.avif"}
             alt="glass"
@@ -91,31 +91,31 @@ const Home = () => {
               in every bottle of wine we craft.
             </p>
           </div>
-        </div>
-      </div>
+        </section>
+      </article>
       {/* Specials */}
-      <div id="specials" className="px-8 py-4 flex-center flex-col gap-8">
-        <div className="h2-bold flex justify-center items-center w-full">
+      <article id="specials" className="px-8 py-4 flex-center flex-col gap-8">
+        <section className="h2-bold flex justify-center items-center w-full">
           <span className="border-b border-gray-300 flex-grow"></span>
           <span className="px-4">Our Specials</span>
           <span className="border-b border-gray-300 flex-grow"></span>
-        </div>
-        <div className="flex flex-wrap gap-16 w-full justify-center">
+        </section>
+        <section className="flex flex-wrap gap-16 w-full justify-center">
           {products.slice(0, 4).map((product) => (
             <Card key={product._id} product={product} />
           ))}
-        </div>
+        </section>
         <Button text="View More" to="/products" />
-      </div>
+      </article>
       {/* Visit Us */}
-      <div id="visit" className="px-16 py-4 flex flex-col gap-8">
-        <div className="h2-bold flex justify-center items-center w-full">
+      <article id="visit" className="px-16 py-4 flex flex-col gap-8">
+        <section className="h2-bold flex justify-center items-center w-full">
           <span className="border-b border-gray-300 flex-grow"></span>
           <span className="px-4">Visit Us</span>
           <span className="border-b border-gray-300 flex-grow"></span>
-        </div>
-        <div className="flex-center xl:flex-row flex-col">
-          <div className="xl:w-3/4">
+        </section>
+        <section className="flex-center xl:flex-row flex-col">
+          <aside className="xl:w-3/4">
             {/* Gallery */}
             <div className="container mx-auto px-5 py-2 lg:px-16 flex items-center">
               <div className="flex flex-row justify-center sm:flex-wrap">
@@ -179,8 +179,8 @@ const Home = () => {
                 </div>
               </div>
             </div>
-          </div>
-          <div className="xl:w-1/2 leading-7">
+          </aside>
+          <section className="xl:w-1/2 leading-7">
             <p>
               <span className="text-5xl font-semibold">N</span>estled amidst
               vast expanses of rolling hills and fertile terrain, our vineyard
@@ -203,9 +203,9 @@ const Home = () => {
               beauty of nature intertwines with the rich heritage of winemaking,
               leaving you with memories to cherish long after you depart.
             </p>
-          </div>
-        </div>
-      </div>
+          </section>
+        </section>
+      </article>
     </div>
   );
 };

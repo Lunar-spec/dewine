@@ -15,19 +15,15 @@ export type Product = {
     };
 }
 
-export type loginUser = {
+export type LoginUser = {
     email: string;
     password: string;
 }
 
-export type CreateUserParams = {
-    _id?: string;
-    first_name: string;
-    last_name: string;
+export type CreateUser = {
+    name: string;
     email: string;
     password: string;
-    img?: string | null;
+    image?: string | null;
     role?: "user" | "admin";
-    createdAt: Date;
-    updatedAt: Date;
 }

@@ -5,17 +5,13 @@ export const productFormSchema = z.object({
 })
 
 export const newUserSchema = z.object({
-    first_name: z
+    name: z
         .string()
-        .min(1, { message: 'First name is required' })
-        .max(10, { message: 'First name is too long' }),
-    last_name: z
-        .string()
-        .min(1, { message: 'Last name is required' })
-        .max(10, { message: 'Last name is too long' }),
+        .min(1, { message: 'Name is required' })
+        .max(20, { message: 'Name is too long' }),
     email: z.string().email().min(5, { message: 'Email is required' }),
     password: z.string().min(8, { message: 'Password should be at least 8 characters' }),
-    img: z.string().optional(),
+    image: z.string().optional(),
 });
 
 export const contactFormSchema = z.object({

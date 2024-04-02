@@ -10,14 +10,20 @@ export const publicRoutes: string[] = ["/", "/about", "/contact"];
  * redirects them after logging to /settings
  * @type {string[]}
  */
-export const authRoutes: string[] = ["/auth/sign-in", "/auth/sign-up"];
+export const authRoutes: string[] = ["/auth/sign-in", "/auth/sign-up", "/auth/error"];
 /**
  * The prefix for all API routes
  * @type {string}
  */
 export const apiAuthPrefix: string = "/api/auth";
+
+/**
+ * The prefix for uplaodthing route
+ *  @type {string}
+ * */
+export const apiUploadPrefix: string = "/api/uploadthing";
 /**
  * The default login redirect
  * @type {string}
  */
-export const DEFAULT_LOGIN_REDIRECT: string = "/settings";
+export const DEFAULT_LOGIN_REDIRECT: string = "/profile";

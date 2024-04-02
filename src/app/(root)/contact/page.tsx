@@ -29,7 +29,7 @@ const Contact = () => {
   });
 
   function onSubmit(values: z.infer<typeof contactFormSchema>) {
-    console.log(values);
+    // console.log(values);
 
     toast({
       title: "Message sent",
@@ -38,7 +38,7 @@ const Contact = () => {
   }
 
   return (
-    <div className="flex flex-col lg:flex-row">
+    <article className="flex flex-col lg:flex-row">
       <div className="flex-1 flex-center">
         <Image
           src={"/assets/glass3.avif"}
@@ -100,7 +100,7 @@ const Contact = () => {
           </form>
         </Form>
       </div>
-    </div>
+    </article>
   );
 };
 

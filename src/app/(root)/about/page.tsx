@@ -3,7 +3,7 @@ import Image from "next/image";
 const About = () => {
   return (
     <div className="xl:px-32 flex flex-col gap-4">
-      <div className="flex-center md:flex-row flex-col xl:gap-16 gap-8 xl:px-32">
+      <article className="flex-center md:flex-row flex-col xl:gap-16 gap-8 xl:px-32">
         <Image
           src={"/assets/about.avif"}
           alt="about"
@@ -27,7 +27,7 @@ const About = () => {
             exceptional wines for our customers.
           </p>
         </div>
-      </div>
+      </article>
       <div className="flex-center md:flex-row-reverse flex-col xl:gap-16 gap-8 xl:px-32">
         <Image
           src={"/assets/about2.avif"}

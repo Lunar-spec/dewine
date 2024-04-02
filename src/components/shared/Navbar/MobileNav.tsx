@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import {
   Sheet,
@@ -11,6 +12,7 @@ import {
 import { headerLinks } from "@/constants";
 import Link from "next/link";
 import { Separator } from "@/components/ui/separator";
+import { signOut } from "@/auth";
 
 const MobileNav = () => {
   return (
