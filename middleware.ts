@@ -11,12 +11,9 @@ import {
 } from '@/routes'
 
 export default auth((req) => {
-    // console.log(req);
-    
     const { nextUrl } = req;
     const isLoggedIn = !!req.auth;
 
-    // console.log(nextUrl.pathname);
     const isUploadThingRoute = nextUrl.pathname.startsWith(apiUploadPrefix);
     const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
     const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
@@ -34,17 +31,6 @@ export default auth((req) => {
     }
     if (!isLoggedIn && !isPublicRoute) {
         return Response.redirect(new URL("/", nextUrl));
-        //     let callbackUrl = nextUrl.pathname;
-        //     if (nextUrl.search) {
-        //         callbackUrl += nextUrl.search;
-        //     }
-
-        //     const encodedCallbackUrl = encodeURIComponent(callbackUrl);
-
-        //     return Response.redirect(new URL(
-        //         `/auth/login?callbackUrl=${encodedCallbackUrl}`,
-        //         nextUrl
-        //     ));
     }
 
     return;

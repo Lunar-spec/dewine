@@ -1,10 +1,9 @@
 import type { NextAuthConfig } from "next-auth"
 import NextAuth from "next-auth"
 import authConfig from '@/auth.config'
-import { getUserById } from "./lib/actions/users.action";
-import { MongoDBAdapter } from "@auth/mongodb-adapter"
-import clientPromise from "./lib/db";
-import User from "./lib/database/models/user.model";
+import { PrismaAdapter } from "@auth/prisma-adapter";
+import { db } from "./lib/db";
+import { getUserById } from "./lib/actions/helper";
 
 export const {
     handlers: { GET, POST },
@@ -12,29 +11,23 @@ export const {
     signIn,
     signOut,
 } = NextAuth({
-    ...authConfig,
-    adapter: MongoDBAdapter(clientPromise, {
-        databaseName: 'dewine',
-    }),
-    events: {
-        async linkAccount({ user }) {
-            // console.log(user)
-            const userId = {
-                _id: user.id
-            }
-            const verifyAccount = {
-                emailVerified: new Date(),
-            }
-            const opts = { new: true, upsert: true }
-            const res = await User.findOneAndUpdate(userId, verifyAccount, opts);
-            // console.log(res)
-        }
-    },
+    adapter: PrismaAdapter(db),
+    // events: {
+    //     async linkAccount({ user }) {
+    //         // console.log(user)
+    //         const userId = {
+    //             _id: user.id
+    //         }
+    //         const verifyAccount = {
+    //             emailVerified: new Date(),
+    //         }
+    //         const opts = { new: true, upsert: true }
+    //         const res = await User.findOneAndUpdate(userId, verifyAccount, opts);
+    //         // console.log(res)
+    //     }
+    // },
     session: { strategy: 'jwt' },
     callbacks: {
-        // async signIn({ profile, account, user }) {
-        //     return true
-        // },
         async jwt({ token }) {
             // console.log(token);
             if (!token.sub) return null;
@@ -48,7 +41,7 @@ export const {
                 session.user.name = token.name!;
                 session.user.image = token.picture!;
                 session.user.id = token.sub!;
-                session.user.role = token.role!;
+                session.user.role = token.role as 'ADMIN' | 'USER';
             }
             return session
         },
@@ -58,4 +51,5 @@ export const {
         signIn: '/auth/sign-in',
         error: '/auth/error',
     },
+    ...authConfig,
 } satisfies NextAuthConfig)

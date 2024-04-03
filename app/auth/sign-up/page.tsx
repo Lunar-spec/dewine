@@ -19,7 +19,7 @@ import {
 import { Input } from "@/components/ui/input";
 import SocialButtons from "@/components/shared/SocialButton/SocialButtons";
 import { useState } from "react";
-import { registerUser } from "@/lib/actions/users.action";
+import { registerUser } from "@/lib/actions/users";
 import { FileUploader } from "@/components/shared/FileUploader/FileUploader";
 import { useUploadThing } from "@/lib/uploadthing";
 import { redirect, useRouter, useSearchParams } from "next/navigation";

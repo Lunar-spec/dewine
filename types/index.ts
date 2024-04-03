@@ -23,7 +23,9 @@ export type LoginUser = {
 export type CreateUser = {
     name: string;
     email: string;
+    emailVerified?: Date;
     password: string;
     image?: string | null;
     role?: "user" | "admin";
+    createdAt?: Date;
 }

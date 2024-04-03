@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import SocialButtons from "@/components/shared/SocialButton/SocialButtons";
-import { checkCredentials } from "@/lib/actions/users.action";
+import { checkCredentials } from "@/lib/actions/users";
 
 const SignIn = () => {
   const { toast } = useToast();
