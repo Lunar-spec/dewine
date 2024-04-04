@@ -60,39 +60,33 @@ const SignUp = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof newUserSchema>) => {
-    // console.log(values);
     setIsLoading(true);
     let uploadedImageUrl = values.image;
-    // console.log(files);
 
     if (files.length > 0) {
       const uploadedImages = await startUpload(files);
-      // console.log(uploadedImages);
       if (!uploadedImages) {
         return;
       }
       uploadedImageUrl = uploadedImages[0].url;
     }
     values.image = uploadedImageUrl;
-    // console.log(values);
     try {
-      registerUser(values).then((data) => {
-        // console.log(data);
-        if (data?.success) {
-          toast({
-            title: "Signed up.",
-            description: "Please check your email to verify your account.",
-          });
-          router.push("/auth/sign-in");
-        } else {
-          toast({
-            title: data?.error,
-            variant: "destructive",
-          });
-        }
-      });
+      const res = await registerUser(values);
+      if (res?.error) {
+        toast({
+          title: "Something went wrong.",
+          description: "Please try again later.",
+          variant: "destructive",
+        });
+      } else if (res?.success) {
+        toast({
+          title: "Confirmation mail send",
+          description: "Please confirm your email.",
+        });
+        router.push("/auth/sign-in");
+      }
     } catch (error) {
-      console.log(error);
       toast({
         title: "Something went wrong.",
         description: "Please try again later.",

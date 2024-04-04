@@ -6,9 +6,8 @@ import { signIn } from '@/auth';
 import { DEFAULT_LOGIN_REDIRECT } from '@/routes';
 import { AuthError } from "next-auth";
 import { db } from "../db";
-import { getUserByEmail } from "./helper";
-
-
+import { getUserByEmail, sendVerificationEmail } from "./helper";
+import { generateVerificationToken } from "./token";
 
 export const registerUser = async (values: z.infer<typeof newUserSchema>) => {
     const validatedFields = newUserSchema.safeParse(values);
@@ -18,7 +17,6 @@ export const registerUser = async (values: z.infer<typeof newUserSchema>) => {
     const { email, password, name, image } = validatedFields.data;
 
     const existingUser = await getUserByEmail(email);
-    // console.log(existingUser);
     if (existingUser) {
         return {
             error: "User already exists",
@@ -34,9 +32,10 @@ export const registerUser = async (values: z.infer<typeof newUserSchema>) => {
                 password: hashedPassword,
             }
         });
-        // const verificationToken = await generateVerificationToken(email);
 
-        // await sendVerficationEmail(verificationToken.email, verificationToken.token);
+        const verificationToken = await generateVerificationToken(email);
+
+        await sendVerificationEmail(verificationToken.email, verificationToken.token);
         return { success: "Confirmation mail sent!", }
     } catch (error) {
         console.log(error);
@@ -49,6 +48,24 @@ export const checkCredentials = async (values: z.infer<typeof loginUserSchema>) 
 
     const { email, password } = validatedFields.data;
 
+    const existingUser: any = await getUserByEmail(email);
+
+    const isValid = await bcrypt.compare(password, existingUser.password);
+
+    if (!existingUser || !existingUser.email || !isValid) {
+        return {
+            error: "Email does not exist or wrong credentials",
+        };
+    }
+
+    if (!existingUser.emailVerified) {
+        const verificationToken = await generateVerificationToken(email);
+        await sendVerificationEmail(verificationToken.email, verificationToken.token);
+        return {
+            success: "Confirmation mail sent!",
+            desc: "Please check your email to verify your account.",
+        }
+    }
     try {
         await signIn("credentials", {
             email,
@@ -56,26 +73,16 @@ export const checkCredentials = async (values: z.infer<typeof loginUserSchema>) 
             redirectTo: DEFAULT_LOGIN_REDIRECT,
         });
     } catch (error) {
-        // console.log(error);
         if (error instanceof AuthError) {
             switch (error.type) {
                 case 'CredentialsSignin':
                     return { error: "Invalid credentials" }
+                case 'AccessDenied':
+                    return { error: "Access Denied" }
                 default: return { error: "Something went wrong" }
             }
         }
         throw error;
     }
 }
-
-// export const fetchAll = async () => {
-//     try {
-//         await connectDb();
-//         const users = await User.find();
-//         return JSON.parse(JSON.stringify(users));
-//     } catch (error) {
-//         console.log(error);
-//         return null;
-//     }
-// }
 

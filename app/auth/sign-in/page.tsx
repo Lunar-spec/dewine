@@ -49,10 +49,10 @@ const SignIn = () => {
           title: data?.error,
           variant: "destructive",
         });
-      } else {
+      } else if (data?.success) {
         toast({
-          title: "Logged In!",
-          description: "You've signed in successfully.",
+          title: data?.success || "Logged In!",
+          description: data?.desc || "You've signed in successfully.",
         });
       }
     });
