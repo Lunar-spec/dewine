@@ -247,7 +247,7 @@ span {
 }
 
 *::-webkit-scrollbar-track {
-  background: #fff;
+  background: #000;
 }
 
 *::-webkit-scrollbar-thumb {
@@ -256,5 +256,5 @@ span {
 }
 
 *::-webkit-scrollbar-corner {
-  background-color: #fff;
+  background-color: #000;
 }

@@ -111,6 +111,12 @@ const SignIn = () => {
                       className="text-lg h-max"
                     />
                   </FormControl>
+                  <Link
+                    href={"/auth/reset"}
+                    className="text-brand-primary underline text-sm flex justify-end"
+                  >
+                    Forgot Password?
+                  </Link>
                   <FormMessage />
                 </FormItem>
               )}

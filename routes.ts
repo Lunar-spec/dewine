@@ -3,14 +3,26 @@
  * and don't require authentication
  * @type {string[]}
  */
-export const publicRoutes: string[] = ["/", "/about", "/contact", "/auth/new-verification"];
+export const publicRoutes: string[] = [
+    "/",
+    "/about",
+    "/contact",
+    "/auth/new-verification",
+    "/products"
+];
 /**
  * These are the routes that require authentication
  * and are not publicly accessible
  * redirects them after logging to /settings
  * @type {string[]}
  */
-export const authRoutes: string[] = ["/auth/sign-in", "/auth/sign-up", "/auth/error"];
+export const authRoutes: string[] = [
+    "/auth/sign-in",
+    "/auth/reset",
+    "/auth/sign-up",
+    "/auth/error",
+    "/auth/new-password",
+];
 /**
  * The prefix for all API routes
  * @type {string}

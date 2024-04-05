@@ -15,7 +15,6 @@ const Verification = () => {
 
   const onSubmit = useCallback(async () => {
     if (success || error) return;
-    // console.log(token);
     if (!token) {
       setError("Something went wrong");
       return;

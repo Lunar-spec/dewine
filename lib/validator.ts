@@ -26,6 +26,19 @@ export const contactFormSchema = z.object({
         .max(400, { message: 'Message is too long' }),
 })
 
+export const resetPasswordSchema = z.object({
+    email: z
+        .string()
+        .min(5, { message: 'Email is required' })
+        .email({ message: 'Invalid email' }),
+})
+
+export const newPasswordSchema = z.object({
+    password: z
+        .string()
+        .min(8, { message: 'Password should be at least 8 characters' }),
+})
+
 export const loginUserSchema = z.object({
     email: z
         .string()

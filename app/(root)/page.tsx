@@ -32,7 +32,7 @@ const Home = () => {
         </aside>
       </article>
       {/* About Section */}
-      <article id="about" className="flex-center flex-col gap-8 px-16 py-4">
+      <article id="about" className="flex-center flex-col gap-8 px-8 py-4">
         <section className="h2-bold flex justify-center items-center w-full">
           <span className="border-b border-gray-300 flex-grow"></span>
           <span className="px-4">Who are we?</span>

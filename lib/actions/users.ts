@@ -1,13 +1,15 @@
 "use server";
+
 import bcrypt from "bcryptjs";
 import * as z from "zod";
-import { loginUserSchema, newUserSchema } from "../validator";
+
+import { loginUserSchema, newUserSchema, resetPasswordSchema } from "../validator";
 import { signIn } from '@/auth';
 import { DEFAULT_LOGIN_REDIRECT } from '@/routes';
 import { AuthError } from "next-auth";
 import { db } from "../db";
-import { getUserByEmail, sendVerificationEmail } from "./helper";
-import { generateVerificationToken } from "./token";
+import { getUserByEmail, sendPasswordResetEmail, sendVerificationEmail } from "./helper";
+import { generateResetPasswordToken, generateVerificationToken } from "./token";
 
 export const registerUser = async (values: z.infer<typeof newUserSchema>) => {
     const validatedFields = newUserSchema.safeParse(values);
@@ -42,6 +44,7 @@ export const registerUser = async (values: z.infer<typeof newUserSchema>) => {
         return null;
     }
 }
+
 export const checkCredentials = async (values: z.infer<typeof loginUserSchema>) => {
     const validatedFields = loginUserSchema.safeParse(values);
     if (!validatedFields.success) return { error: "Invalid fields" };
@@ -84,5 +87,22 @@ export const checkCredentials = async (values: z.infer<typeof loginUserSchema>) 
         }
         throw error;
     }
+}
+
+export const resetPassword = async (values: z.infer<typeof resetPasswordSchema>) => {
+    const validatedFields = resetPasswordSchema.safeParse(values);
+    if (!validatedFields.success) return { error: "Invalid email" };
+
+    const { email } = validatedFields.data;
+
+    const existingUser: any = await getUserByEmail(email);
+
+    if (!existingUser) return { error: "Email does not exist!" };
+
+    const resetPasswordToken = await generateResetPasswordToken(existingUser.email);
+
+    await sendPasswordResetEmail(resetPasswordToken.email, resetPasswordToken.token);
+
+    return { success: "Password reset email sent!" };
 }
 

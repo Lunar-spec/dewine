@@ -3,6 +3,16 @@ import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+export const sendPasswordResetEmail = async (email: string, token: string) => {
+    const resetLink = `http://localhost:3000/auth/new-password?token=${token}`;
+    await resend.emails.send({
+        from: "onboarding@resend.dev",
+        to: email,
+        subject: "Reset your password",
+        html: `<a href="${resetLink}">Reset your password</a>`,
+    })
+}
+
 export const sendVerificationEmail = async (email: string, token: string) => {
     const confirmLink = `http://localhost:3000/auth/new-verification?token=${token}`;
     await resend.emails.send({
@@ -34,6 +44,24 @@ export const getUserById = async (id: string) => {
     }
 }
 
+export const getPasswordResetTokenByToken = async (token: string) => {
+    try {
+        const passwordToken = await db.passwordResetToken.findUnique({ where: { token } });
+        return passwordToken;
+    } catch (error) {
+        return null;
+    }
+}
+
+export const getPasswordResetTokenByEmail = async (email: string) => {
+    try {
+        const passwordEmail = await db.passwordResetToken.findFirst({ where: { email } });
+        return passwordEmail;
+    } catch (error) {
+        return null;
+    }
+}
+
 export const getVerificationTokenByEmail = async (email: string) => {
     try {
         const verificationToken = await db.verificationToken.findFirst({ where: { email } });
@@ -42,6 +70,7 @@ export const getVerificationTokenByEmail = async (email: string) => {
         return null;
     }
 }
+
 export const getVerificationTokenByToken = async (token: string) => {
     try {
         const verificationToken = await db.verificationToken.findUnique({ where: { token } });

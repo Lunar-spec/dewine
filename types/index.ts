@@ -14,18 +14,3 @@ export type Product = {
         name: string;
     };
 }
-
-export type LoginUser = {
-    email: string;
-    password: string;
-}
-
-export type CreateUser = {
-    name: string;
-    email: string;
-    emailVerified?: Date;
-    password: string;
-    image?: string | null;
-    role?: "user" | "admin";
-    createdAt?: Date;
-}
