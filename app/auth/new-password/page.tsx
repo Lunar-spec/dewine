@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { newPasswordSchema } from "@/lib/validator";
-import { toast } from "sonner"
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -22,7 +22,6 @@ import { newPassword } from "@/lib/actions/newPassword";
 import { useState } from "react";
 
 const NewPassword = () => {
-
   const searchParams = useSearchParams();
   const router = useRouter();
   const token = searchParams.get("token");
@@ -41,29 +40,22 @@ const NewPassword = () => {
     try {
       const res = await newPassword(values, token);
       if (res?.error) {
-        toast({
-          title: "Error",
+        toast.error("Error", {
           description: res.error,
-          variant: "destructive",
         });
       } else if (res?.success) {
-        toast({
-          title: "Success",
+        toast.success("Success", {
           description: res.success,
         });
         router.push("/auth/sign-in");
       } else {
-        toast({
-          title: "Something went wrong",
+        toast.error("Something went wrong", {
           description: "Please try again later.",
-          variant: "destructive",
         });
       }
     } catch (error) {
-      toast({
-        title: "Something went wrong",
+      toast.error("Something went wrong", {
         description: "Please try again later.",
-        variant: "destructive",
       });
     } finally {
       setLoading(false);
