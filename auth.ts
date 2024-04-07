@@ -14,6 +14,7 @@ export const {
 } = NextAuth({
     adapter: PrismaAdapter(db),
     session: { strategy: 'jwt' },
+    ...authConfig,
     callbacks: {
         async jwt({ token }) {
             if (!token.sub) return null;
@@ -44,7 +45,6 @@ export const {
         signIn: '/auth/sign-in',
         error: '/auth/error',
     },
-    ...authConfig,
     events: {
         async linkAccount({ user }) {
             await db.user.update({

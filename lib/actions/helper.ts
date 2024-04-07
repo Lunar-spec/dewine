@@ -79,4 +79,3 @@ export const getVerificationTokenByToken = async (token: string) => {
         return null;
     }
 }
-

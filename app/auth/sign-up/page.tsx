@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { newUserSchema } from "@/lib/validator";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -26,7 +26,6 @@ import { redirect, useRouter, useSearchParams } from "next/navigation";
 
 const SignUp = () => {
   const router = useRouter();
-  const { toast } = useToast();
   const [files, setFiles] = useState<File[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const searchParams = useSearchParams();
@@ -40,9 +39,8 @@ const SignUp = () => {
       : "";
 
   if (urlError) {
-    toast({
-      ...urlError,
-      variant: "destructive",
+    toast.error(urlError.title, {
+      description: urlError.description,
     });
     redirect("/auth/sign-in");
   }
@@ -74,23 +72,18 @@ const SignUp = () => {
     try {
       const res = await registerUser(values);
       if (res?.error) {
-        toast({
-          title: "Something went wrong.",
+        toast.error("Something went wrong.", {
           description: "Please try again later.",
-          variant: "destructive",
         });
       } else if (res?.success) {
-        toast({
-          title: "Confirmation mail send",
+        toast.success("Confirmation mail send", {
           description: "Please confirm your email.",
         });
         router.push("/auth/sign-in");
       }
     } catch (error) {
-      toast({
-        title: "Something went wrong.",
+      toast.error("Something went wrong.", {
         description: "Please try again later.",
-        variant: "destructive",
       });
     } finally {
       setIsLoading(false);

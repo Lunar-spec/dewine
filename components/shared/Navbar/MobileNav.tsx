@@ -37,15 +37,17 @@ const MobileNav = () => {
             </SheetDescription>
           </SheetHeader>
           <Separator className="my-4" />
-          <SheetClose className="flex flex-col gap-4 text-lg">
-            {headerLinks.map((link) => (
-              <li key={link.text} className="md:hidden">
-                <Link href={link.href}>{link.text}</Link>
-              </li>
-            ))}
-            <Link href={"/auth/sign-in"}>Sign-In</Link>
-            {/* //TODO only after authentication */}
-            <Link href={"/profile"}>My Profile</Link>
+          <SheetClose asChild className="flex flex-col gap-4 text-lg">
+            <span>
+              {headerLinks.map((link) => (
+                <li key={link.text} className="md:hidden">
+                  <Link href={link.href}>{link.text}</Link>
+                </li>
+              ))}
+              <Link href={"/auth/sign-in"}>Sign-In</Link>
+              {/* //TODO only after authentication */}
+              <Link href={"/profile"}>My Profile</Link>
+            </span>
           </SheetClose>
         </SheetContent>
       </Sheet>

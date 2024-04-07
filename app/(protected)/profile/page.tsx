@@ -1,12 +1,13 @@
-import { auth } from "@/auth";
-import SignOut from "@/components/shared/SignOut/SignOut";
+"use client";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
-const Profile = async () => {
-  const session = await auth();
+const Profile = () => {
+  const user = useCurrentUser();
+
   return (
     <div className="flex flex-col">
-      {JSON.stringify(session)}
-      <SignOut />
+      <div id="profile">Profile</div>
+      <div id="orders">Orders</div>
     </div>
   );
 };

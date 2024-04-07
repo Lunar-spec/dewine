@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { loginUserSchema } from "@/lib/validator";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 
 import { redirect, useSearchParams } from "next/navigation";
 
@@ -23,7 +23,6 @@ import SocialButtons from "@/components/shared/SocialButton/SocialButtons";
 import { checkCredentials } from "@/lib/actions/users";
 
 const SignIn = () => {
-  const { toast } = useToast();
   const searchParams = useSearchParams();
 
   const urlError =
@@ -45,22 +44,19 @@ const SignIn = () => {
   function onSubmit(values: z.infer<typeof loginUserSchema>) {
     checkCredentials(values).then((data) => {
       if (data?.error) {
-        toast({
-          title: data?.error,
-          variant: "destructive",
+        toast.error("Error", {
+          description: data?.error,
         });
       } else if (data?.success) {
-        toast({
-          title: data?.success || "Logged In!",
+        toast.success(data?.success || "Logged In!", {
           description: data?.desc || "You've signed in successfully.",
         });
       }
     });
   }
   if (urlError) {
-    toast({
-      ...urlError,
-      variant: "destructive",
+    toast.error(urlError.title, {
+      description: urlError.description,
     });
     redirect("/auth/sign-in");
   }

@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { newPasswordSchema } from "@/lib/validator";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner"
 
 import { Button } from "@/components/ui/button";
 import {
@@ -22,7 +22,6 @@ import { newPassword } from "@/lib/actions/newPassword";
 import { useState } from "react";
 
 const NewPassword = () => {
-  const { toast } = useToast();
 
   const searchParams = useSearchParams();
   const router = useRouter();

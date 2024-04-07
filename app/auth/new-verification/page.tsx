@@ -1,12 +1,10 @@
 "use client";
-import { useToast } from "@/components/ui/use-toast";
 import { newVerification } from "@/lib/actions/verification";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 
 const Verification = () => {
-  const { toast } = useToast();
   const searchParams = useSearchParams();
   const [success, setSuccess] = useState<string | undefined>("");
   const [error, setError] = useState<string | undefined>("");

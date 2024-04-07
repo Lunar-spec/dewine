@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Jost } from "next/font/google";
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
-import AuthProvider from "@/components/shared/Provider/AuthProvider";
+import { SessionProvider } from "next-auth/react";
+import { auth } from "@/auth";
 
 const jost = Jost({ subsets: ["latin"] });
 
@@ -14,18 +15,20 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth();
+
   return (
     <html lang="en">
       <body className={jost.className}>
-        <AuthProvider>
+        <SessionProvider session={session}>
           <main>{children}</main>
-        <Toaster />
-        </AuthProvider>
+          <Toaster />
+        </SessionProvider>
       </body>
     </html>
   );

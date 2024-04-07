@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { contactFormSchema } from "@/lib/validator";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -18,7 +18,6 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
 const Contact = () => {
-  const { toast } = useToast();
   const form = useForm<z.infer<typeof contactFormSchema>>({
     resolver: zodResolver(contactFormSchema),
     defaultValues: {
@@ -31,8 +30,7 @@ const Contact = () => {
   function onSubmit(values: z.infer<typeof contactFormSchema>) {
     // console.log(values);
 
-    toast({
-      title: "Message sent",
+    toast.success("Message sent", {
       description: "We'll get back to you shortly.",
     });
   }

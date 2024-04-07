@@ -2,10 +2,9 @@ import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { signIn } from "next-auth/react";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 
 const SocialButtons = ({ mode }: { mode: string }) => {
-  const { toast } = useToast();
   const onClick = async (provider: "google" | "github") => {
     try {
       await signIn(provider, {
@@ -13,10 +12,8 @@ const SocialButtons = ({ mode }: { mode: string }) => {
       });
     } catch (error) {
       console.log(error);
-      toast({
-        title: "Error in login",
+      toast.error("Error in login", {
         description: "Try again later",
-        variant: "destructive",
       });
     }
     // console.log(res);

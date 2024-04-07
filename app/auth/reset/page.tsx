@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { resetPasswordSchema } from "@/lib/validator";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -21,7 +21,6 @@ import { resetPassword } from "@/lib/actions/users";
 import { useState } from "react";
 
 const ResetPage = () => {
-  const { toast } = useToast();
   const [loading, setLoading] = useState<boolean>(false);
 
   const form = useForm<z.infer<typeof resetPasswordSchema>>({
@@ -36,28 +35,21 @@ const ResetPage = () => {
     try {
       const res = await resetPassword(values);
       if (res?.error) {
-        toast({
-          title: "Error",
+        toast(res.error, {
           description: res.error,
-          variant: "destructive",
         });
       } else if (res?.success) {
-        toast({
-          title: "Success",
+        toast.success("Success", {
           description: res.success,
         });
       } else {
-        toast({
-          title: "Something went wrong",
+        toast.error("Something went wrong", {
           description: "Please try again later.",
-          variant: "destructive",
         });
       }
     } catch (error) {
-      toast({
-        title: "Something went wrong",
+      toast.error("Something went wrong", {
         description: "Please try again later.",
-        variant: "destructive",
       });
     } finally {
       setLoading(false);
