@@ -9,6 +9,8 @@ const About = () => {
           alt="about"
           width={300}
           height={300}
+          priority
+          loading="eager"
         />
         <div className="flex flex-col gap-8 px-16">
           <p className="p-regular-18">
@@ -34,6 +36,8 @@ const About = () => {
           alt="about"
           width={300}
           height={300}
+          priority
+          loading="eager"
         />
         <div className="flex gap-8 flex-col px-16">
           <p className="p-regular-18">

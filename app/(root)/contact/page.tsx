@@ -43,6 +43,8 @@ const Contact = () => {
           alt="contact"
           width={1200}
           height={1200}
+          priority
+          loading="eager"
           className="w-3/4 object-center object-cover"
         />
       </div>

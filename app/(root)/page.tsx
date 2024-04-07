@@ -44,6 +44,7 @@ const Home = () => {
             alt="glass"
             width={800}
             height={800}
+            loading="eager"
             className="object-contain object-center"
           />
           <div className="w-full text-justify flex flex-col gap-8">
@@ -127,6 +128,7 @@ const Home = () => {
                       alt="gallery"
                       className="block h-full w-full object-cover object-center"
                       src="/assets/grapes2.avif"
+                      loading="lazy"
                     />
                   </div>
                   <div className="lg:w-1/2 w-full p-1 md:p-2">
@@ -136,6 +138,7 @@ const Home = () => {
                       alt="gallery"
                       className="block h-full w-full object-cover object-center"
                       src="/assets/vineyard2.avif"
+                      loading="lazy"
                     />
                   </div>
                   <div className="w-full p-1 md:p-2">
@@ -145,6 +148,7 @@ const Home = () => {
                       alt="gallery"
                       className="block h-full w-full object-cover object-center max-h-none lg:max-h-[1000px]"
                       src="/assets/sunset2.avif"
+                      loading="lazy"
                     />
                   </div>
                 </div>
@@ -156,6 +160,7 @@ const Home = () => {
                       alt="gallery"
                       className="block h-full w-full object-cover object-center"
                       src="/assets/vineyard5.avif"
+                      loading="lazy"
                     />
                   </div>
                   <div className="w-1/2 p-1 md:p-2">
@@ -165,6 +170,7 @@ const Home = () => {
                       alt="gallery"
                       className="block h-full w-full object-cover object-center"
                       src="/assets/grapes3.avif"
+                      loading="lazy"
                     />
                   </div>
                   <div className="w-1/2 p-1 md:p-2">
@@ -174,6 +180,7 @@ const Home = () => {
                       alt="gallery"
                       className="block h-full w-full object-cover object-center"
                       src="/assets/vineyard3.avif"
+                      loading="lazy"
                     />
                   </div>
                 </div>
