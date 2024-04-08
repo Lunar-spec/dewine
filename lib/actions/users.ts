@@ -3,7 +3,7 @@
 import bcrypt from "bcryptjs";
 import * as z from "zod";
 
-import { loginUserSchema, newUserSchema, resetPasswordSchema } from "../validator";
+import { loginUserSchema, newUserSchema, resetPasswordSchema, updatePasswordSchema } from "../validator";
 import { signIn } from '@/auth';
 import { DEFAULT_LOGIN_REDIRECT } from '@/routes';
 import { AuthError } from "next-auth";
@@ -86,6 +86,38 @@ export const checkCredentials = async (values: z.infer<typeof loginUserSchema>) 
             }
         }
         throw error;
+    }
+}
+
+export const updatePassword = async (values: z.infer<typeof updatePasswordSchema>, userId: string) => {
+    const validatedFields = updatePasswordSchema.safeParse(values);
+    if (!validatedFields.success) return { error: "Invalid fields" };
+
+    const existingUser: any = await db.user.findUnique({
+        where: {
+            id: userId
+        }
+    });
+
+    if (!existingUser) return { error: "User does not exist!" };
+
+    const { password } = validatedFields.data;
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    try {
+        await db.user.update({
+            where: {
+                id: existingUser.id
+            },
+            data: {
+                password: hashedPassword
+            }
+        });
+        return { success: "Password updated!" };
+    } catch (error) {
+        console.log(error);
+        return null;
     }
 }
 

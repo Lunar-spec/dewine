@@ -48,3 +48,25 @@ export const loginUserSchema = z.object({
         .string()
         .min(8, { message: 'Password is required' }),
 })
+
+export const updateUserSchema = z.object({
+    name: z
+        .string()
+        .min(1, { message: 'Name is required' })
+        .max(20, { message: 'Name is too long' }),
+    image: z.string().optional(),
+    email: z.string().email().min(5, { message: 'Email is required' }),
+});
+
+export const updatePasswordSchema = z.object({
+    password: z.string().min(8, { message: 'Password should be at least 8 characters' }),
+    confirmPassword: z.string(),
+}).refine(
+    (values) => {
+        return values.password === values.confirmPassword;
+    },
+    {
+        message: "Passwords must match!",
+        path: ["confirmPassword"],
+    }
+);
