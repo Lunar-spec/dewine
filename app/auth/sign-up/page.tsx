@@ -91,7 +91,7 @@ const SignUp = () => {
   };
 
   return (
-    <article className="flex-center p-4">
+    <article className="flex-center h-screen p-4">
       <section className="bg-white/10 w-full md:w-3/4 flex-col flex-center gap-8 p-4 rounded">
         <div className="flex relative flex-row items-center justify-center w-full">
           <Link
