@@ -23,9 +23,13 @@ import { useUploadThing } from "@/lib/uploadthing";
 import { useState } from "react";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import UpdatePassword from "../_components/UpdatePassword";
+import { updateUserDetails } from "@/lib/actions/users";
+import { signOut } from "next-auth/react";
 
 const Settings = () => {
   const [files, setFiles] = useState<File[]>([]);
+
+  const [loading, setLoading] = useState<boolean>(false);
 
   const user = useCurrentUser();
 
@@ -41,38 +45,52 @@ const Settings = () => {
   const { startUpload } = useUploadThing("imageUploader");
 
   const onSubmit = async (values: z.infer<typeof updateUserSchema>) => {
-    console.log(values);
-    let uploadedImageUrl = values.image;
+    if (!user) return;
 
-    if (files.length > 0) {
-      const uploadedImages = await startUpload(files);
-      if (!uploadedImages) {
-        return;
+    if (
+      values.email !== user.email ||
+      values.name !== user.name ||
+      values.image !== user.image
+    ) {
+      setLoading(true);
+
+      let uploadedImageUrl = values.image;
+
+      if (files.length > 0) {
+        const uploadedImages = await startUpload(files);
+        if (!uploadedImages) {
+          return;
+        }
+        uploadedImageUrl = uploadedImages[0].url;
       }
-      uploadedImageUrl = uploadedImages[0].url;
-    }
-    values.image = uploadedImageUrl;
-    try {
-      // const res = await registerUser(values);
-      // if (res?.error) {
-      //   toast.error("Something went wrong.", {
-      //     description: "Please try again later.",
-      //   });
-      // } else if (res?.success) {
-      //   toast.success("Confirmation mail send", {
-      //     description: "Please confirm your email.",
-      //   });
-      // }
-    } catch (error) {
-      toast.error("Something went wrong.", {
-        description: "Please try again later.",
-      });
+      values.image = uploadedImageUrl;
+      try {
+        const res = await updateUserDetails(values, user?.id);
+        if (res?.success) {
+          toast.success(res.success, {
+            description: res.desc,
+          });
+          res?.status === 201 || 200 ? signOut() : null;
+        } else {
+          toast.error(res?.error || "Something went wrong.", {
+            description: "Please try again later.",
+          });
+        }
+      } catch (error) {
+        toast.error("Something went wrong.", {
+          description: "Please try again later.",
+        });
+      } finally {
+        setLoading(false);
+      }
+    } else {
+      toast.error("No changes made.");
     }
   };
 
   return (
     <article className="flex-center h-screen">
-      <section className="bg-white/10 w-1/2 flex-col flex-center gap-8 p-4 rounded">
+      <section className="bg-white/10 lg:w-1/2 w-5/6 flex-col flex-center gap-8 p-4 rounded">
         <div className="flex relative flex-row items-center justify-center w-full">
           <Link
             href={"/"}
@@ -87,12 +105,12 @@ const Settings = () => {
             onSubmit={form.handleSubmit(onSubmit)}
             className="flex-center flex-col px-14 gap-8 w-full"
           >
-            <div className="flex-center flex-row w-full gap-4">
+            <div className="flex-center flex-col md:flex-row md:gap-4 gap-8 w-full">
               <FormField
                 control={form.control}
                 name="image"
                 render={({ field }) => (
-                  <FormItem className="w-3/4">
+                  <FormItem className="md:w-3/4">
                     <FormControl>
                       <FileUploader
                         onFieldChange={field.onChange}
@@ -109,7 +127,7 @@ const Settings = () => {
                   control={form.control}
                   name="name"
                   render={({ field }) => (
-                    <FormItem className="w-3/4">
+                    <FormItem className="md:w-3/4 w-full">
                       <FormControl>
                         <Input
                           placeholder="Name"
@@ -125,7 +143,7 @@ const Settings = () => {
                   control={form.control}
                   name="email"
                   render={({ field }) => (
-                    <FormItem className="w-3/4">
+                    <FormItem className="md:w-3/4 w-full">
                       <FormControl>
                         <Input
                           placeholder="Email"
@@ -137,17 +155,26 @@ const Settings = () => {
                     </FormItem>
                   )}
                 />
-                <div className="flex w-3/4 justify-end">
+                <div className="flex w-3/4 md:justify-end justify-center">
                   <UpdatePassword userId={user?.id || ""} />
                 </div>
               </div>
             </div>
-            <Button type="submit" className="rounded-[1px] text-lg">
-              Update
+            <Button
+              type="submit"
+              disabled={loading}
+              className="rounded-[1px] text-lg"
+            >
+              {loading ? "Updating..." : "Update"}
             </Button>
           </form>
         </Form>
       </section>
+      {loading && (
+        <div className="absolute text-xl font-medium inset-0 cursor-not-allowed flex justify-center items-center bg-black/80">
+          Updating...
+        </div>
+      )}
     </article>
   );
 };

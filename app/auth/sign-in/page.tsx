@@ -122,6 +122,12 @@ const SignIn = () => {
             </Button>
           </form>
         </Form>
+        <div className="w-3/4 flex-center">
+          <span className="text-sm text-center text-red-400">
+            Due to technical issues we are unable to verify emails, so we
+            don&apos;t recommend signing up with credentials.
+          </span>
+        </div>
         <div className="flex justify-center items-center w-3/4">
           <span className="border-b border-gray-300 flex-grow"></span>
           <span className="px-4">OR</span>

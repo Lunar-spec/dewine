@@ -53,9 +53,15 @@ export const updateUserSchema = z.object({
     name: z
         .string()
         .min(1, { message: 'Name is required' })
-        .max(20, { message: 'Name is too long' }),
-    image: z.string().optional(),
-    email: z.string().email().min(5, { message: 'Email is required' }),
+        .max(20, { message: 'Name is too long' })
+        .optional(),
+    image: z
+        .string()
+        .optional(),
+    email: z
+        .string()
+        .email().min(5, { message: 'Email is required' })
+        .optional(),
 });
 
 export const updatePasswordSchema = z.object({

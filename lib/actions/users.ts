@@ -3,7 +3,7 @@
 import bcrypt from "bcryptjs";
 import * as z from "zod";
 
-import { loginUserSchema, newUserSchema, resetPasswordSchema, updatePasswordSchema } from "../validator";
+import { loginUserSchema, newUserSchema, resetPasswordSchema, updatePasswordSchema, updateUserSchema } from "../validator";
 import { signIn } from '@/auth';
 import { DEFAULT_LOGIN_REDIRECT } from '@/routes';
 import { AuthError } from "next-auth";
@@ -136,5 +136,52 @@ export const resetPassword = async (values: z.infer<typeof resetPasswordSchema>)
     await sendPasswordResetEmail(resetPasswordToken.email, resetPasswordToken.token);
 
     return { success: "Password reset email sent!" };
+}
+
+export const updateUserDetails = async (values: z.infer<typeof updateUserSchema>, userId: string | undefined) => {
+    const validatedFields = updateUserSchema.safeParse(values);
+    if (!validatedFields.success) return { error: "Invalid fields" };
+
+    if (!userId) return { error: "User not found" };
+
+    const { name, image, email } = validatedFields.data;
+
+    const existingUser: any = await db.user.findUnique({
+        where: {
+            id: userId
+        }
+    });
+
+    if (!existingUser) return { error: "User does not exist!" };
+
+    try {
+        var emailVerified: Date | null = new Date();
+        if (email && email !== existingUser.email) {
+            const verificationToken = await generateVerificationToken(email);
+            await sendVerificationEmail(verificationToken.email, verificationToken.token);
+            emailVerified = null;
+        }
+
+        await db.user.update({
+            where: {
+                id: existingUser.id
+            },
+            data: {
+                name,
+                image,
+                email,
+                emailVerified: emailVerified
+            }
+        });
+
+        if (email && email !== existingUser.email) {
+            return { success: "Confirmation mail sent!", desc: "Please check your email to verify your account.", status: 201 };
+        }
+
+        return { success: "User details updated!", status: 200 };
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
 }
 
