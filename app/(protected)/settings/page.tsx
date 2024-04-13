@@ -70,7 +70,7 @@ const Settings = () => {
           toast.success(res.success, {
             description: res.desc,
           });
-          res?.status === 201 || 200 ? signOut() : null;
+          res?.status === 201 ? signOut() : null;
         } else {
           toast.error(res?.error || "Something went wrong.", {
             description: "Please try again later.",
@@ -112,11 +112,23 @@ const Settings = () => {
                 render={({ field }) => (
                   <FormItem className="md:w-3/4">
                     <FormControl>
-                      <FileUploader
-                        onFieldChange={field.onChange}
-                        imageUrl={field.value}
-                        setFiles={setFiles}
-                      />
+                      <div className="gap-2 flex-col flex-center">
+                        <FileUploader
+                          onFieldChange={field.onChange}
+                          imageUrl={field.value}
+                          setFiles={setFiles}
+                        />
+                        {user?.image && (
+                          <div>
+                            <div
+                              onClick={() => field.onChange("")}
+                              className="text-xs cursor-pointer text-gray-500 text-center"
+                            >
+                              Remove Profile Image
+                            </div>
+                          </div>
+                        )}
+                      </div>
                     </FormControl>
                     <FormMessage />
                   </FormItem>

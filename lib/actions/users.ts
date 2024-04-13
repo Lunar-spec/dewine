@@ -114,7 +114,7 @@ export const updatePassword = async (values: z.infer<typeof updatePasswordSchema
                 password: hashedPassword
             }
         });
-        return { success: "Password updated!" };
+        return { success: "Password updated!", status: 201 };
     } catch (error) {
         console.log(error);
         return null;

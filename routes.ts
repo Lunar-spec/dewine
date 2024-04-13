@@ -10,6 +10,13 @@ export const publicRoutes: string[] = [
     "/auth/new-verification",
     "/products"
 ];
+
+/**
+ * The prefix for all admin routes
+ * @type {string}
+ */
+export const adminRoute: string = "/admin";
+
 /**
  * These are the routes that require authentication
  * and are not publicly accessible

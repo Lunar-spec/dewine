@@ -17,10 +17,19 @@ export const {
     ...authConfig,
     callbacks: {
         async jwt({ token }) {
-            if (!token.sub) return null;
-            const existingUser = await getUserById(token.sub);
-            token.role = existingUser.role;
-            return token
+            try {
+                if (!token.sub) return null;
+
+                const existingUser = await getUserById(token.sub);
+                token.name = existingUser.name;
+                token.email = existingUser.email;
+                token.role = existingUser.role;
+
+                return token
+            } catch (error) {
+                console.log(error)
+                return null
+            }
         },
         async session({ session, token }) {
             if (session.user) {
@@ -36,7 +45,6 @@ export const {
             if (account?.provider !== 'credentials') return true;
             const existingUser = await getUserById(user.id as string);
             if (!existingUser || !existingUser.emailVerified) return false;
-            //    TODO Add 2FA
             return true;
         },
     },

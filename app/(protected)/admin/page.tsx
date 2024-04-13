@@ -18,7 +18,12 @@ const Admin = () => {
     );
   }
 
-  return <div>Admin</div>;
+  return (
+    <div>
+      A list of products and their prices with quantity, Number of users, Number
+      of orders their quantity, Add new product 
+    </div>
+  );
 };
 
 export default Admin;

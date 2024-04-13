@@ -9,7 +9,7 @@ const Profile = () => {
 
   return (
     <div className="flex flex-col gap-8 py-4 lg:flex-row w-full justify-center items-center lg:items-start lg:justify-between px-16">
-      <div id="profile" className="lg:w-1/4 p-2">
+      <div id="profile" className="lg:w-1/4 p-2 sticky top-0">
         <div className="flex items-center bg-white/10 px-4 py-2 rounded-[1px] shadow-lg shadow-white/10 sticky justify-start gap-6">
           <Image
             src={user?.image || "/assets/avatar.jpg"}
