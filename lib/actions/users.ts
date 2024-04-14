@@ -54,22 +54,28 @@ export const checkCredentials = async (values: z.infer<typeof loginUserSchema>) 
 
     const existingUser: any = await getUserByEmail(email);
 
+    if (!existingUser) return {
+        error: "Email does not exist",
+        desc: 'Sign up to get started'
+    };
+
     const isValid = await bcrypt.compare(password, existingUser.password);
 
     if (!existingUser || !existingUser.email || !isValid) {
         return {
             error: "Email does not exist or wrong credentials",
+            desc: 'Please check your email or password'
         };
     }
 
-    if (!existingUser.emailVerified) {
-        const verificationToken = await generateVerificationToken(email);
-        await sendVerificationEmail(verificationToken.email, verificationToken.token);
-        return {
-            success: "Confirmation mail sent!",
-            desc: "Please check your email to verify your account.",
-        }
-    }
+    // if (!existingUser.emailVerified) {
+    //     const verificationToken = await generateVerificationToken(email);
+    //     await sendVerificationEmail(verificationToken.email, verificationToken.token);
+    //     return {
+    //         success: "Confirmation mail sent!",
+    //         desc: "Please check your email to verify your account.",
+    //     }
+    // }
     try {
         await signIn("credentials", {
             email,
@@ -180,7 +186,7 @@ export const updateUserDetails = async (values: z.infer<typeof updateUserSchema>
             return { success: "Confirmation mail sent!", desc: "Please check your email to verify your account.", status: 201 };
         }
 
-        return { success: "User details updated!", status: 200 };
+        return { success: "User details updated!", desc: "Please sign in again.", status: 200 };
     } catch (error) {
         console.log(error);
         return null;

@@ -44,14 +44,19 @@ const SignIn = () => {
   function onSubmit(values: z.infer<typeof loginUserSchema>) {
     checkCredentials(values).then((data) => {
       if (data?.error) {
-        toast.error("Error", {
-          description: data?.error,
+        toast.error(data?.error || "Error", {
+          description: data?.desc || "Something went wrong.",
         });
-      } else if (data?.success) {
-        toast.success(data?.success || "Logged In!", {
-          description: data?.desc || "You've signed in successfully.",
+      } else {
+        toast.success("Logged In!", {
+          description: "You've signed in successfully.",
         });
       }
+      // else if (data?.success) {
+      //   toast.success(data?.success || "Logged In!", {
+      //     description: data?.desc || "You've signed in successfully.",
+      //   });
+      // }
     });
   }
   if (urlError) {

@@ -76,8 +76,9 @@ const SignUp = () => {
           description: "Please try again later.",
         });
       } else if (res?.success) {
-        toast.success("Confirmation mail send", {
-          description: "Please confirm your email.",
+        toast.success(res?.success, {
+          // description: "Please confirm your email.",
+          description: "Please sign in.",
         });
         router.push("/auth/sign-in");
       }
