@@ -13,6 +13,8 @@ export const newUserSchema = z.object({
     password: z.string().min(8, { message: 'Password should be at least 8 characters' }),
     image: z.string().optional(),
 });
+// TODO : Add address & address validation in sign up form
+
 
 export const contactFormSchema = z.object({
     name: z
