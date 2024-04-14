@@ -38,7 +38,8 @@ export const registerUser = async (values: z.infer<typeof newUserSchema>) => {
         const verificationToken = await generateVerificationToken(email);
 
         await sendVerificationEmail(verificationToken.email, verificationToken.token);
-        return { success: "Confirmation mail sent!", }
+        return { success: "Registration successful!", }
+        // return { success: "Confirmation mail sent!", }
     } catch (error) {
         console.log(error);
         return null;
@@ -135,7 +136,8 @@ export const resetPassword = async (values: z.infer<typeof resetPasswordSchema>)
 
     await sendPasswordResetEmail(resetPasswordToken.email, resetPasswordToken.token);
 
-    return { success: "Password reset email sent!" };
+    // return { success: "Password reset email sent!" };
+    return { success: "Feature not available, Please contact support!" };
 }
 
 export const updateUserDetails = async (values: z.infer<typeof updateUserSchema>, userId: string | undefined) => {

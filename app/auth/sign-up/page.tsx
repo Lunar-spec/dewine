@@ -187,12 +187,12 @@ const SignUp = () => {
             </Button>
           </form>
         </Form>
-        <div>
+        {/* <div>
           <span className="text-sm text-red-400">
             Due to technical issues we are unable to verify emails, so we
             don&apos;t recommend signing up with credentials.
           </span>
-        </div>
+        </div> */}
         <div className="flex justify-center items-center w-3/4">
           <span className="border-b border-gray-300 flex-grow"></span>
           <span className="px-4">OR</span>

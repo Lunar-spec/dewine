@@ -23,7 +23,7 @@ export default auth((req) => {
 
     const isAdminRoute = nextUrl.pathname.startsWith(adminRoute);
 
-    // TODO Add stripe payment in here as we need it to be open for all users
+    // TODO Add stripe payment in here as we need it to be open for only registered users
     if (isApiAuthRoute || isUploadThingRoute) {
         return;
     }

@@ -42,9 +42,9 @@ export const {
             return session;
         },
         async signIn({ user, account }) {
-            if (account?.provider !== 'credentials') return true;
-            const existingUser = await getUserById(user.id as string);
-            if (!existingUser || !existingUser.emailVerified) return false;
+            // if (account?.provider !== 'credentials') return true;
+            // const existingUser = await getUserById(user.id as string);
+            // if (!existingUser || !existingUser.emailVerified) return false;
             return true;
         },
     },
