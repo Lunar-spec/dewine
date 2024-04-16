@@ -22,7 +22,6 @@ model User {
   role          UserRole  @default(USER)
   createdAt     DateTime  @default(now())
   accounts      Account[]
-  address       Address[]
 }
 
 model Account {
@@ -42,19 +41,6 @@ model Account {
   user User @relation(fields: [userId], references: [id])
 
   @@unique([provider, providerAccountId])
-}
-
-model Address {
-  id      String @id @default(auto()) @map("_id") @db.ObjectId
-  userId  String @db.ObjectId
-  line1   String
-  line2   String
-  city    String
-  state   String
-  country String
-  code    String
-
-  User User @relation(fields: [userId], references: [id])
 }
 
 model VerificationToken {
