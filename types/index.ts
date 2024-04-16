@@ -14,3 +14,9 @@ export type Product = {
         name: string;
     };
 }
+
+export interface PancakeProps {
+    message: string;
+    description: string;
+    type: "error" | "success" | "info";
+}

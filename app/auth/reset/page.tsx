@@ -39,7 +39,7 @@ const ResetPage = () => {
           description: res.error,
         });
       } else if (res?.success) {
-        toast.success("Success", {
+        toast.info("Alert", {
           description: res.success,
         });
       } else {

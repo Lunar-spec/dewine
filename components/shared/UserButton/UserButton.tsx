@@ -17,16 +17,24 @@ import { GiLaurelCrown } from "react-icons/gi";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import Link from "next/link";
 import { FaHome } from "react-icons/fa";
+import Image from "next/image";
 
 const UserButton = () => {
   const user = useCurrentUser();
+
+  console.log(user);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
         <Avatar>
           <AvatarImage src={user?.image || ""} />
           <AvatarFallback className="!bg-brand-primary">
-            <IoPerson className="text-xl" />
+            <Image
+              src={"/assets/avatar.jpg"}
+              alt="avatar"
+              width={40}
+              height={40}
+            />
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>

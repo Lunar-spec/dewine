@@ -23,9 +23,10 @@ export const {
                 const existingUser = await getUserById(token.sub);
                 token.name = existingUser.name;
                 token.email = existingUser.email;
+                token.picture = existingUser.image;
                 token.role = existingUser.role;
 
-                return token
+                return token;
             } catch (error) {
                 console.log(error)
                 return null

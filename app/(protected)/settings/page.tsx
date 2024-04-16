@@ -70,7 +70,8 @@ const Settings = () => {
           toast.success(res.success, {
             description: res.desc,
           });
-          res?.status === 201 || 200 ? signOut() : null;
+          // res?.status === 201 ? signOut() : null;
+          // TODO reload window.
         } else {
           toast.error(res?.error || "Something went wrong.", {
             description: "Please try again later.",
