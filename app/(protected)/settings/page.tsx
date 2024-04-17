@@ -72,6 +72,7 @@ const Settings = () => {
           });
           // res?.status === 201 ? signOut() : null;
           // TODO reload window.
+          // TODO call pancake nad distribute toast
         } else {
           toast.error(res?.error || "Something went wrong.", {
             description: "Please try again later.",
@@ -170,6 +171,9 @@ const Settings = () => {
                 />
                 <div className="flex w-3/4 md:justify-end justify-center">
                   <UpdatePassword userId={user?.id || ""} />
+                </div>
+                <div className="flex w-3/4 text-brand-primary md:justify-end justify-center">
+                  Add Address 
                 </div>
               </div>
             </div>

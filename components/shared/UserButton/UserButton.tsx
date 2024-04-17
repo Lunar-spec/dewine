@@ -28,7 +28,7 @@ const UserButton = () => {
       <DropdownMenuTrigger>
         <Avatar>
           <AvatarImage src={user?.image || ""} />
-          <AvatarFallback className="!bg-brand-primary">
+          <AvatarFallback>
             <Image
               src={"/assets/avatar.jpg"}
               alt="avatar"
