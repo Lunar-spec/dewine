@@ -45,10 +45,10 @@ model Account {
 }
 
 model Address {
-  id      String  @id @default(auto()) @map("_id") @db.ObjectId
-  userId  String  @db.ObjectId
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  userId  String @unique @db.ObjectId
   line1   String
-  line2   String?
+  line2   String
   city    String
   state   String
   code    String

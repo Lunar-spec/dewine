@@ -13,8 +13,15 @@ export const newUserSchema = z.object({
     password: z.string().min(8, { message: 'Password should be at least 8 characters' }),
     image: z.string().optional(),
 });
-// TODO : Add address & address validation in sign up form
 
+export const updateAddressForm = z.object({
+    line1: z.string().min(1, { message: 'Line 1 is required' }).max(30, { message: 'Line 1 is too long' }),
+    line2: z.string().min(1, { message: 'Line 2 is required' }).max(30, { message: 'Line 2 is too long' }),
+    city: z.string().min(1, { message: 'City is required' }).max(30, { message: 'City is too long' }),
+    state: z.string().min(1, { message: 'State is required' }).max(30, { message: 'State is too long' }),
+    country: z.string().min(1, { message: 'Country is required' }).max(30, { message: 'Country is too long' }),
+    code: z.string().min(1, { message: 'Area code is required' }).max(30, { message: 'Area code is too long' }),
+})
 
 export const contactFormSchema = z.object({
     name: z

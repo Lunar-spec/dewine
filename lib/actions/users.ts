@@ -3,14 +3,14 @@
 import bcrypt from "bcryptjs";
 import * as z from "zod";
 
-import { loginUserSchema, newUserSchema, resetPasswordSchema, updatePasswordSchema, updateUserSchema } from "../validator";
+import { loginUserSchema, newUserSchema, resetPasswordSchema, updateAddressForm, updatePasswordSchema, updateUserSchema } from "../validator";
 import { signIn } from '@/auth';
 import { DEFAULT_LOGIN_REDIRECT } from '@/routes';
 import { AuthError } from "next-auth";
 import { db } from "../db";
 import { getUserByEmail, sendPasswordResetEmail, sendVerificationEmail } from "./helper";
 import { generateResetPasswordToken, generateVerificationToken } from "./token";
-
+import { Address } from "@/types";
 export const registerUser = async (values: z.infer<typeof newUserSchema>) => {
     const validatedFields = newUserSchema.safeParse(values);
 
@@ -128,6 +128,61 @@ export const updatePassword = async (values: z.infer<typeof updatePasswordSchema
     }
 }
 
+export const updateAddress = async (values: z.infer<typeof updateAddressForm>, userId: string) => {
+    const validatedFields = updateAddressForm.safeParse(values);
+    if (!validatedFields.success) return { error: "Invalid fields" };
+
+    const existingUser: any = await db.user.findUnique({
+        where: {
+            id: userId
+        }
+    });
+
+    if (!existingUser) return { error: "User does not exist!" };
+
+    const { line1, line2, city, state, country, code } = validatedFields.data;
+
+    const address: Address = {
+        userId,
+        line1,
+        line2,
+        city,
+        state,
+        country,
+        code
+    }
+
+    try {
+        const updatedAddress = await db.address.upsert({
+            where: {
+                userId: userId
+            },
+            create: {
+                ...address
+            },
+            update: {
+                ...address
+            }
+        })
+
+        await db.user.update({
+            where: {
+                id: userId
+            },
+            data: {
+                address: {
+                    connect: { id: updatedAddress.id }
+                }
+            }
+        })
+
+        return { success: "Address updated!", status: 201 };
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+}
+
 export const resetPassword = async (values: z.infer<typeof resetPasswordSchema>) => {
     const validatedFields = resetPasswordSchema.safeParse(values);
     if (!validatedFields.success) return { error: "Invalid email" };
@@ -199,6 +254,18 @@ export const fetchUserDetailById = async (id: string) => {
         const user = await db.user.findUnique({ where: { id } });
         if (!user) return { error: 'No user found', desc: 'Enter a valid user id.' };
         return user;
+    } catch (error) {
+        console.log(error);
+        return { error: "Something went wrong", desc: "Please try again later." };
+    }
+}
+
+export const fetchUserAddressByUserId = async (id: string) => {
+    try {
+        if (!id) return { error: "No user ID found.", desc: "Please try again." };
+        const address = await db.address.findFirst({ where: { userId: id } });
+        if (!address) return { error: "No address found", desc: "Please add an address" };
+        return address;
     } catch (error) {
         console.log(error);
         return { error: "Something went wrong", desc: "Please try again later." };

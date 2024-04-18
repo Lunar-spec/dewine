@@ -24,7 +24,7 @@ import { useState } from "react";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import UpdatePassword from "../_components/UpdatePassword";
 import { updateUserDetails } from "@/lib/actions/users";
-import { signOut } from "next-auth/react";
+import Address from "../_components/updateAddress";
 
 const Settings = () => {
   const [files, setFiles] = useState<File[]>([]);
@@ -85,8 +85,6 @@ const Settings = () => {
       } finally {
         setLoading(false);
       }
-    } else {
-      toast.error("No changes made.");
     }
   };
 
@@ -169,11 +167,14 @@ const Settings = () => {
                     </FormItem>
                   )}
                 />
-                <div className="flex w-3/4 md:justify-end justify-center">
-                  <UpdatePassword userId={user?.id || ""} />
-                </div>
-                <div className="flex w-3/4 text-brand-primary md:justify-end justify-center">
-                  Add Address 
+                <div className="flex items-start justify-between md:flex-col md:gap-2 w-full md:w-3/4">
+                  <div>
+                    {/* //TODO Hide this for users who logged in using socials */}
+                    <UpdatePassword userId={user?.id || ""} />
+                  </div>
+                  <div>
+                    <Address />
+                  </div>
                 </div>
               </div>
             </div>

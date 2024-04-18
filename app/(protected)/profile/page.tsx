@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { fetchUserDetailById } from "@/lib/actions/users";
 import Pancake from "@/components/shared/Toast/Pancake";
 import { PancakeProps } from "@/types";
+import Link from "next/link";
 
 const Profile = () => {
   const user = useCurrentUser();
@@ -59,12 +60,24 @@ const Profile = () => {
           </div>
         </div>
         {!userDetails?.address && (
-          <div className="flex items-center bg-white/5 px-4 py-2 rounded-[1px] shadow-lg shadow-white/5 sticky justify-start gap-6">
-            <div>
-              <h2 className="text-base font-semibold">Welcome</h2>
+          <div className="flex items-end bg-white/5 px-4 py-2 rounded-[1px] shadow-lg shadow-white/5 sticky gap-6">
+            <div className="flex flex-col">
+              <div className="flex justify-between items-center">
+                <span className="flex items-center">
+                  <h2 className="text-lg font-semibold">W</h2>elcome
+                </span>
+                <Link
+                  className="text-brand-primary text-sm hover:underline"
+                  href="/settings"
+                >
+                  Settings
+                </Link>
+              </div>
               <p className="text-sm">
-                Incase you have not set up your address yet, please do so at the
-                earliest.
+                <span>
+                  Incase you have not set up your address yet, please do so at
+                  the earliest.
+                </span>
               </p>
             </div>
           </div>

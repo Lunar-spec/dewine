@@ -20,3 +20,13 @@ export interface PancakeProps {
     description: string;
     type: "error" | "success" | "info";
 }
+
+export interface Address {
+    userId: string,
+    line1: string;
+    line2: string;
+    city: string;
+    state: string;
+    country: string;
+    code: string;
+}

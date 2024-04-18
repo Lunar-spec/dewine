@@ -37,7 +37,7 @@ const UpdatePassword = ({ userId }: { userId: string }) => {
 
   if (!userId) return null;
 
-  const onSubmit = async (values: z.infer<typeof updatePasswordSchema>) => {
+  const handlePassword = async (values: z.infer<typeof updatePasswordSchema>) => {
     setLoading(true);
     try {
       const res = await updatePassword(values, userId);
@@ -69,7 +69,7 @@ const UpdatePassword = ({ userId }: { userId: string }) => {
       <DialogContent className="sm:max-w-[425px] bg-[#101010] outline-none border-none shadow-2xl shadow-white/10">
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(onSubmit)}
+            onSubmit={form.handleSubmit(handlePassword)}
             className="flex flex-col gap-8"
           >
             <DialogHeader>
