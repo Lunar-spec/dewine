@@ -59,29 +59,35 @@ const Profile = () => {
             <p>Orders: 0</p>
           </div>
         </div>
-        {!userDetails?.address && (
-          <div className="flex items-end bg-white/5 px-4 py-2 rounded-[1px] shadow-lg shadow-white/5 sticky gap-6">
-            <div className="flex flex-col">
-              <div className="flex justify-between items-center">
-                <span className="flex items-center">
-                  <h2 className="text-lg font-semibold">W</h2>elcome
-                </span>
-                <Link
-                  className="text-brand-primary text-sm hover:underline"
-                  href="/settings"
-                >
-                  Settings
-                </Link>
-              </div>
+        <div className="flex items-end bg-white/5 px-4 py-2 rounded-[1px] shadow-lg shadow-white/5 sticky gap-6">
+          <div className="flex flex-col gap-2 w-full">
+            <div className="flex justify-between items-center w-full">
+              <span className="flex items-center">
+                <h2 className="text-lg font-semibold">W</h2>elcome
+              </span>
+              <Link
+                className="text-brand-primary text-sm hover:underline"
+                href="/settings"
+              >
+                Settings
+              </Link>
+            </div>
+            {!userDetails ||
+            !userDetails.address ||
+            userDetails.address.length === 0 ? (
               <p className="text-sm">
                 <span>
                   Incase you have not set up your address yet, please do so at
                   the earliest.
                 </span>
               </p>
-            </div>
+            ) : (
+              <p className="text-sm">
+                <span>Happy to see you back!</span>
+              </p>
+            )}
           </div>
-        )}
+        </div>
       </div>
       <div id="orders" className="lg:w-3/4 px-4">
         <Orders />

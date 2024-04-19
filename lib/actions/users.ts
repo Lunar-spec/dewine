@@ -251,7 +251,7 @@ export const updateUserDetails = async (values: z.infer<typeof updateUserSchema>
 export const fetchUserDetailById = async (id: string) => {
     try {
         if (!id) return { error: "No user ID found.", desc: "Please try again." };
-        const user = await db.user.findUnique({ where: { id } });
+        const user = await db.user.findUnique({ where: { id }, include: { address: true } });
         if (!user) return { error: 'No user found', desc: 'Enter a valid user id.' };
         return user;
     } catch (error) {

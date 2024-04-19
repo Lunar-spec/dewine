@@ -70,9 +70,6 @@ const Settings = () => {
           toast.success(res.success, {
             description: res.desc,
           });
-          // res?.status === 201 ? signOut() : null;
-          // TODO reload window.
-          // TODO call pancake nad distribute toast
         } else {
           toast.error(res?.error || "Something went wrong.", {
             description: "Please try again later.",
@@ -85,6 +82,8 @@ const Settings = () => {
       } finally {
         setLoading(false);
       }
+    } else {
+      toast.info("No changes were made");
     }
   };
 
@@ -160,6 +159,7 @@ const Settings = () => {
                         <Input
                           placeholder="Email"
                           {...field}
+                          readOnly
                           className="text-lg h-max"
                         />
                       </FormControl>
@@ -169,11 +169,10 @@ const Settings = () => {
                 />
                 <div className="flex items-start justify-between md:flex-col md:gap-2 w-full md:w-3/4">
                   <div>
-                    {/* //TODO Hide this for users who logged in using socials */}
                     <UpdatePassword userId={user?.id || ""} />
                   </div>
                   <div>
-                    <Address />
+                    <Address userId={user?.id || ""} />
                   </div>
                 </div>
               </div>

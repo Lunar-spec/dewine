@@ -35,9 +35,9 @@ const UpdatePassword = ({ userId }: { userId: string }) => {
     },
   });
 
-  if (!userId) return null;
-
-  const handlePassword = async (values: z.infer<typeof updatePasswordSchema>) => {
+  const handlePassword = async (
+    values: z.infer<typeof updatePasswordSchema>
+  ) => {
     setLoading(true);
     try {
       const res = await updatePassword(values, userId);
@@ -68,10 +68,7 @@ const UpdatePassword = ({ userId }: { userId: string }) => {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] bg-[#101010] outline-none border-none shadow-2xl shadow-white/10">
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(handlePassword)}
-            className="flex flex-col gap-8"
-          >
+          <form className="flex flex-col gap-8">
             <DialogHeader>
               <DialogTitle className="text-xl font-semibold">
                 Update Password
@@ -90,6 +87,7 @@ const UpdatePassword = ({ userId }: { userId: string }) => {
                       <Input
                         placeholder="New Password"
                         disabled={loading}
+                        type="password"
                         {...field}
                       />
                     </FormControl>
@@ -106,6 +104,7 @@ const UpdatePassword = ({ userId }: { userId: string }) => {
                       <Input
                         placeholder="Confirm Password"
                         disabled={loading}
+                        type="password"
                         {...field}
                       />
                     </FormControl>
@@ -115,7 +114,7 @@ const UpdatePassword = ({ userId }: { userId: string }) => {
               />
             </div>
             <DialogFooter>
-              <Button type="submit">
+              <Button onClick={form.handleSubmit(handlePassword)}>
                 {loading ? "Saving..." : "Save changes"}
               </Button>
             </DialogFooter>

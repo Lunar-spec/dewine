@@ -21,8 +21,6 @@ import Image from "next/image";
 
 const UserButton = () => {
   const user = useCurrentUser();
-
-  console.log(user);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
