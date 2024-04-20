@@ -19,9 +19,9 @@ const Admin = () => {
   }
 
   return (
-    <div>
-      A list of products and their prices with quantity, Number of users, Number
-      of orders their quantity, Add new product 
+    <div className="flex-center md:flex-row flex-col">
+      <div className="flex-center">Table of users</div>
+      {/*//TODO A list of products and their prices with quantity, Number of users, Number of orders their quantity, Add new product */}
     </div>
   );
 };

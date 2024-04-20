@@ -1,3 +1,5 @@
+import { IconType } from "react-icons/lib";
+
 export type Product = {
     _id: string;
     brand: string;
@@ -29,4 +31,10 @@ export interface Address {
     state: string;
     country: string;
     code: string;
+}
+
+export interface adminCardProps {
+    icon: IconType;
+    title: string;
+    count: number;
 }
