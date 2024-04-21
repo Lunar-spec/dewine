@@ -1,5 +1,7 @@
-import { adminCardProps, Product } from "@/types";
-import { FaUserFriends } from "react-icons/fa";
+import { adminCardProps, Product, sideBarProps } from "@/types";
+import { FaCcMastercard, FaMailBulk, FaUserFriends } from "react-icons/fa";
+import { FaChessKing, FaScrewdriverWrench } from "react-icons/fa6";
+import { GiShoppingBag } from "react-icons/gi";
 
 export const headerLinks: { text: string; href: string }[] = [
   {
@@ -189,7 +191,49 @@ export const adminCards: adminCardProps[] = [
   {
     icon: FaUserFriends,
     title: "Users",
-    count: 2,
+    count: 12,
   },
-  // TODO add more cards
+  {
+    icon: GiShoppingBag,
+    title: "Products",
+    count: 10,
+  },
+  {
+    icon: FaCcMastercard,
+    title: "Orders",
+    count: 20,
+  },
 ];
+
+export const sideBarLinks: sideBarProps[] = [
+  {
+    text: "Dashboard",
+    href: "/admin",
+    icon: FaChessKing,
+  },
+  {
+    text: "Users",
+    href: "/admin/users",
+    icon: FaUserFriends,
+  },
+  {
+    text: "Products",
+    href: "/admin/products",
+    icon: GiShoppingBag,
+  },
+  {
+    text: "Orders",
+    href: "/admin/orders",
+    icon: FaCcMastercard,
+  },
+  {
+    text: "Contact",
+    href: "#",
+    icon: FaMailBulk,
+  },
+  {
+    text: "Settings",
+    href: "#",
+    icon: FaScrewdriverWrench,
+  }
+]

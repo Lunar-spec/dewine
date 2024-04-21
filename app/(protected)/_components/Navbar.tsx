@@ -18,7 +18,9 @@ const Navbar = () => {
           <Link href="/profile">Profile</Link>
         </span>
         {user?.role === "ADMIN" && (
-          <span className={`${pathname === "/admin" && "text-brand-primary"}`}>
+          <span
+            className={`${pathname.includes("/admin") && "text-brand-primary"}`}
+          >
             <Link href="/admin">Admin</Link>
           </span>
         )}

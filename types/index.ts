@@ -38,3 +38,9 @@ export interface adminCardProps {
     title: string;
     count: number;
 }
+
+export interface sideBarProps {
+    text: string;
+    href: string;
+    icon: IconType;
+}

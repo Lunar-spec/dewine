@@ -73,19 +73,15 @@ const Profile = () => {
               </Link>
             </div>
             {!userDetails ||
-            !userDetails.address ||
-            userDetails.address.length === 0 ? (
-              <p className="text-sm">
-                <span>
-                  Incase you have not set up your address yet, please do so at
-                  the earliest.
-                </span>
-              </p>
-            ) : (
-              <p className="text-sm">
-                <span>Happy to see you back!</span>
-              </p>
-            )}
+              !userDetails.address ||
+              (userDetails.address.length === 0 && (
+                <p className="text-sm">
+                  <span>
+                    Incase you have not set up your address yet, please do so at
+                    the earliest.
+                  </span>
+                </p>
+              ))}
           </div>
         </div>
       </div>
