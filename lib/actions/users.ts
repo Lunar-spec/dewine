@@ -272,3 +272,13 @@ export const fetchUserAddressByUserId = async (id: string) => {
     }
 }
 
+export const getAllUsers = async () => {
+    try {
+        const users = await db.user.findMany({ include: { address: true, accounts: true } });
+        return users;
+    } catch (error) {
+        console.log(error);
+        return { error: "Something went wrong", desc: "Please try again later." };
+    }
+}
+

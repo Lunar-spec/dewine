@@ -1,3 +1,4 @@
+import { Account, UserRole } from "@prisma/client";
 import { IconType } from "react-icons/lib";
 
 export type Product = {

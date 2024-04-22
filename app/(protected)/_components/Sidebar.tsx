@@ -28,7 +28,6 @@ const Sidebar = () => {
                 <GiLaurelCrown className="text-3xl text-yellow-400" />
               )}
             </span>
-            <p>{user?.email}</p>
           </div>
         </div>
         {sideBarLinks.map((link) => (

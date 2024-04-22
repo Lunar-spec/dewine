@@ -1,38 +1,26 @@
-"use client";
-import { useCurrentUser } from "@/hooks/useCurrentUser";
 import Image from "next/image";
 import { GiLaurelCrown } from "react-icons/gi";
 import { Orders } from "../_components/Table";
-import { useEffect, useState } from "react";
 import { fetchUserDetailById } from "@/lib/actions/users";
 import Pancake from "@/components/shared/Toast/Pancake";
-import { PancakeProps } from "@/types";
 import Link from "next/link";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 
-const Profile = () => {
-  const user = useCurrentUser();
+const Profile = async () => {
+  const session = await auth();
+  if (!session) return redirect("/auth/sign-in");
 
-  const [userDetails, setUserDetails] = useState<any>();
+  const { user } = session;
 
-  useEffect(() => {
-    const getUser = async () => {
-      try {
-        const res: any = await fetchUserDetailById(user?.id as string);
-        if (res?.error) {
-          const error: PancakeProps = {
-            message: res?.error,
-            description: res?.desc,
-            type: "error",
-          };
-          Pancake(error);
-        } else setUserDetails(res);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+  if (!user)
+    return Pancake({
+      message: "Something went wrong.",
+      description: "Please try again later.",
+      type: "error",
+    });
 
-    getUser();
-  }, [user?.id]);
+  const userDetails: any = await fetchUserDetailById(user?.id!);
 
   return (
     <div className="flex flex-col gap-8 py-4 lg:flex-row w-full justify-center items-center lg:items-start lg:justify-between px-16">
@@ -55,7 +43,7 @@ const Profile = () => {
                 <GiLaurelCrown className="text-3xl text-yellow-400" />
               )}
             </span>
-            <p>{userDetails?.email || user?.email}</p>
+            <p>{user?.email}</p>
             <p>Orders: 0</p>
           </div>
         </div>
