@@ -1,4 +1,3 @@
-import { Account, UserRole } from "@prisma/client";
 import { IconType } from "react-icons/lib";
 
 export type Product = {
@@ -44,4 +43,43 @@ export interface sideBarProps {
     text: string;
     href: string;
     icon: IconType;
+}
+
+export interface Account {
+    id: string;
+    userId: string;
+    type: string;
+    provider: string;
+    providerAccountId: string;
+    refresh_token?: string | null;
+    access_token?: string | null;
+    expires_at?: number | null;
+    token_type?: string | null;
+    scope?: string | null;
+    id_token?: string | null;
+    session_state?: string | null;
+}
+
+export interface IAddress {
+    id: string;
+    userId: string;
+    line1: string;
+    line2: string;
+    city: string;
+    state: string;
+    code: string;
+    country: string;
+}
+
+export interface IUser {
+    id: string;
+    name: string;
+    email: string;
+    emailVerified?: Date | null;
+    password?: string | null;
+    image?: string | null;
+    role: 'USER' | 'ADMIN';
+    createdAt: Date;
+    accounts: any[];
+    address: any[];
 }

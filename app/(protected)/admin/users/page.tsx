@@ -7,7 +7,7 @@ const Users = async () => {
   return (
     <div>
       <h1>Users</h1>
-      <UserTable data={users} />
+      <UserTable users={users} />
     </div>
   );
 };

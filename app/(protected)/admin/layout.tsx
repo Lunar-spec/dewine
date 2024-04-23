@@ -37,7 +37,7 @@ const ProtectedLayout = ({ children }: { children: React.ReactNode }) => {
             />
           ))}
         </div>
-        <div className="flex-center h-5/6 w-full">{children}</div>
+        <div className="flex h-5/6 px-4 w-full">{children}</div>
       </div>
     </div>
   );
