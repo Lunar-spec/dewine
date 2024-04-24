@@ -5,8 +5,8 @@ const Users = async () => {
   const users = await getAllUsers();
 
   return (
-    <div>
-      <h1>Users</h1>
+    <div className="w-full">
+      <h1 className="text-2xl font-bold text-center">Users</h1>
       <UserTable users={users} />
     </div>
   );

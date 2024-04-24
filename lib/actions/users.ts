@@ -10,7 +10,7 @@ import { AuthError } from "next-auth";
 import { db } from "../db";
 import { getUserByEmail, sendPasswordResetEmail, sendVerificationEmail } from "./helper";
 import { generateResetPasswordToken, generateVerificationToken } from "./token";
-import { Address } from "@/types";
+import { Address } from "@/types";  
 export const registerUser = async (values: z.infer<typeof newUserSchema>) => {
     const validatedFields = newUserSchema.safeParse(values);
 
