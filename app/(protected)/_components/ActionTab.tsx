@@ -1,58 +1,46 @@
-"use client";
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuPortal,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { EllipsisVertical } from "lucide-react";
+import AccountTab from "./AccountTab";
 
-import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu";
-import { useState } from "react";
-type Checked = DropdownMenuCheckboxItemProps["checked"];
-const ActionTab = () => {
-  const [showStatusBar, setShowStatusBar] = useState<Checked>(true);
-  const [showActivityBar, setShowActivityBar] = useState<Checked>(false);
-  const [showPanel, setShowPanel] = useState<Checked>(false);
+interface IActionTab {
+  userId: string;
+}
+
+const ActionTab = ({ userId }: IActionTab) => {
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+    <Dialog>
+      <DialogTrigger asChild>
         <EllipsisVertical className="h-7 w-7 rounded p-1 m-2 hover:bg-black/10 cursor-pointer" />
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56 bg-black text-white border-none shadow-lg shadow-white/20 rounded">
-        <DropdownMenuLabel>Options</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuCheckboxItem
-          checked={showStatusBar}
-          onCheckedChange={setShowStatusBar}
-        >
-          Status Bar
-        </DropdownMenuCheckboxItem>
-        <DropdownMenuCheckboxItem
-          checked={showActivityBar}
-          onCheckedChange={setShowActivityBar}
-          disabled
-        >
-          Activity Bar
-        </DropdownMenuCheckboxItem>
-        <DropdownMenuCheckboxItem
-          checked={showPanel}
-          onCheckedChange={setShowPanel}
-        >
-          Panel
-        </DropdownMenuCheckboxItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+      </DialogTrigger>
+      <DialogContent className="md:w-1/2 w-full flex-center bg-black text-white border-none shadow-lg shadow-white/10 rounded">
+        <Tabs defaultValue="account" className="w-full flex-center flex-col gap-2">
+          <TabsList className="grid w-full rounded grid-cols-2 gap-4 bg-white/10 h-max">
+            <TabsTrigger
+              value="account"
+              className="data-[state=active]:bg-black/50 data-[state=active]:text-white rounded text-white text-sm"
+            >
+              Account
+            </TabsTrigger>
+            <TabsTrigger
+              value="role"
+              className="rounded data-[state=active]:bg-black/50 data-[state=active]:text-white text-white text-sm"
+            >
+              Role
+            </TabsTrigger>
+          </TabsList>
+          <TabsContent
+            value="account"
+            className="bg-white/10 w-full p-2 rounded"
+          >
+            <AccountTab userId={userId} />
+          </TabsContent>
+          <TabsContent value="role" className="bg-white/10 w-full p-2 rounded">
+            Change your role here.
+          </TabsContent>
+        </Tabs>
+      </DialogContent>
+    </Dialog>
   );
 };
 

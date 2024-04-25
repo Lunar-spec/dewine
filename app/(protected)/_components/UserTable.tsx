@@ -7,7 +7,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { EllipsisVertical } from "lucide-react";
 import Image from "next/image";
 import ActionTab from "./ActionTab";
 
@@ -45,7 +44,7 @@ const UserTable = ({ users }: any) => {
             <TableCell>{user.role}</TableCell>
             <TableCell className="font-medium">{user.id}</TableCell>
             <TableCell>
-              <ActionTab />
+              <ActionTab userId={user.id}/>
             </TableCell>
           </TableRow>
         ))}

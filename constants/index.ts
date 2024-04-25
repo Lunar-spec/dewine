@@ -1,5 +1,5 @@
 import { adminCardProps, Product, sideBarProps } from "@/types";
-import { FaCcMastercard, FaMailBulk, FaUserFriends } from "react-icons/fa";
+import { FaCcMastercard, FaMailBulk, FaUserCircle, FaUserFriends } from "react-icons/fa";
 import { FaChessKing, FaScrewdriverWrench } from "react-icons/fa6";
 import { GiShoppingBag } from "react-icons/gi";
 
@@ -235,5 +235,5 @@ export const sideBarLinks: sideBarProps[] = [
     text: "Settings",
     href: "#",
     icon: FaScrewdriverWrench,
-  }
+  },
 ]

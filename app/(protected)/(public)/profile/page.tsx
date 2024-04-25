@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { GiLaurelCrown } from "react-icons/gi";
-import { Orders } from "../_components/Table";
+import { Orders } from "../../_components/Table";
 import { fetchUserDetailById } from "@/lib/actions/users";
 import Pancake from "@/components/shared/Toast/Pancake";
 import Link from "next/link";

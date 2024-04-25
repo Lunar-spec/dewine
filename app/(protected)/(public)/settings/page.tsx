@@ -22,9 +22,9 @@ import { FileUploader } from "@/components/shared/FileUploader/FileUploader";
 import { useUploadThing } from "@/lib/uploadthing";
 import { useState } from "react";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
-import UpdatePassword from "../_components/UpdatePassword";
+import UpdatePassword from "../../_components/UpdatePassword";
 import { updateUserDetails } from "@/lib/actions/users";
-import Address from "../_components/updateAddress";
+import Address from "../../_components/updateAddress";
 
 const Settings = () => {
   const [files, setFiles] = useState<File[]>([]);

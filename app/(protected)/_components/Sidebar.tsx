@@ -28,18 +28,23 @@ const Sidebar = () => {
                 <GiLaurelCrown className="text-3xl text-yellow-400" />
               )}
             </span>
+            <div>
+              <Link href="/profile" className="text-brand-primary text-sm">
+                Profile
+              </Link>
+            </div>
           </div>
         </div>
         {sideBarLinks.map((link) => (
           <Link
             href={link.href}
             key={link.text}
-            className={`text-base hover:font-semibold hover:text-black flex py-3 px-4 hover:bg-white gap-4 ${
+            className={`text-base hover:font-semibold hover:text-black flex items-center py-3 px-4 hover:bg-white gap-4 ${
               link.href === pathname && "text-brand-primary bg-white/20"
             }`}
           >
-            <link.icon size={16} />
-            {link.text}
+            <link.icon size={18} />
+            <span>{link.text}</span>
           </Link>
         ))}
       </div>
