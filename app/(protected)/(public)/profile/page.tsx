@@ -20,7 +20,7 @@ const Profile = async () => {
       type: "error",
     });
 
-  const userDetails: any = await fetchUserDetailById(user?.id!);
+  const userDetails = await fetchUserDetailById(user?.id!);
 
   return (
     <div className="flex flex-col gap-8 py-4 lg:flex-row w-full justify-center items-center lg:items-start lg:justify-between px-16">

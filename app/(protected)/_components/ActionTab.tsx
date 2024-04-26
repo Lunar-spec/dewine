@@ -18,13 +18,13 @@ const ActionTab = ({ userId }: IActionTab) => {
           <TabsList className="grid w-full rounded grid-cols-2 gap-4 bg-white/10 h-max">
             <TabsTrigger
               value="account"
-              className="data-[state=active]:bg-black/50 data-[state=active]:text-white rounded text-white text-sm"
+              className="data-[state=active]:bg-black/50 data-[state=active]:text-white rounded text-white py-2 text-sm"
             >
               Account
             </TabsTrigger>
             <TabsTrigger
               value="role"
-              className="rounded data-[state=active]:bg-black/50 data-[state=active]:text-white text-white text-sm"
+              className="rounded data-[state=active]:bg-black/50 data-[state=active]:text-white py-2 text-white text-sm"
             >
               Role
             </TabsTrigger>

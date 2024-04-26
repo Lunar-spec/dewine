@@ -10,7 +10,7 @@ import { AuthError } from "next-auth";
 import { db } from "../db";
 import { getUserByEmail, sendPasswordResetEmail, sendVerificationEmail } from "./helper";
 import { generateResetPasswordToken, generateVerificationToken } from "./token";
-import { Address } from "@/types";  
+import { Address } from "@/types";
 export const registerUser = async (values: z.infer<typeof newUserSchema>) => {
     const validatedFields = newUserSchema.safeParse(values);
 
@@ -250,13 +250,13 @@ export const updateUserDetails = async (values: z.infer<typeof updateUserSchema>
 
 export const fetchUserDetailById = async (id: string) => {
     try {
-        if (!id) return { error: "No user ID found.", desc: "Please try again." };
+        if (!id) return null;
         const user = await db.user.findUnique({ where: { id }, include: { address: true } });
-        if (!user) return { error: 'No user found', desc: 'Enter a valid user id.' };
+        if (!user) return null;
         return user;
     } catch (error) {
         console.log(error);
-        return { error: "Something went wrong", desc: "Please try again later." };
+        return null;
     }
 }
 
