@@ -2,6 +2,7 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { EllipsisVertical } from "lucide-react";
 import AccountTab from "./AccountTab";
+import RoleTab from "./RoleTab";
 
 interface IActionTab {
   userId: string;
@@ -37,6 +38,7 @@ const ActionTab = ({ userId }: IActionTab) => {
           </TabsContent>
           <TabsContent value="role" className="bg-white/10 w-full p-2 rounded">
             Change your role here.
+            <RoleTab/>
           </TabsContent>
         </Tabs>
       </DialogContent>
