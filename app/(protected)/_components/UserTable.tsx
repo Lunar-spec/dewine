@@ -11,7 +11,6 @@ import Image from "next/image";
 import ActionTab from "./ActionTab";
 
 const UserTable = ({ users }: any) => {
-  // console.log(users);
   return (
     <Table>
       <TableCaption>A list of Users.</TableCaption>

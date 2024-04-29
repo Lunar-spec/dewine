@@ -1,5 +1,5 @@
+import UserTable from "@/app/(protected)/_components/UserTable";
 import { getAllUsers } from "@/lib/actions/users";
-import UserTable from "../../_components/UserTable";
 
 const Users = async () => {
   const users = await getAllUsers();

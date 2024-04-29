@@ -11,6 +11,7 @@ import { db } from "../db";
 import { getUserByEmail, sendPasswordResetEmail, sendVerificationEmail } from "./helper";
 import { generateResetPasswordToken, generateVerificationToken } from "./token";
 import { Address } from "@/types";
+import { UserRole } from "@prisma/client";
 export const registerUser = async (values: z.infer<typeof newUserSchema>) => {
     const validatedFields = newUserSchema.safeParse(values);
 
@@ -282,3 +283,26 @@ export const getAllUsers = async () => {
     }
 }
 
+export const switchRole = async (userId: string, role: UserRole, id: string) => {
+    if (!userId) return { error: "No user ID found.", desc: "Please try again." };
+
+    if (!role) return { error: "No role found.", desc: "Please try again." };
+
+    if (!id) return { error: "No admin ID found.", desc: "Please try again." };
+
+    if (id === userId) return { error: "You cannot change your own role.", desc: "Switch Accounts." };
+
+    const existingUser = await db.user.findUnique({ where: { id } });
+
+    if (existingUser?.role === "ADMIN") {
+        try {
+            const user = await db.user.update({ where: { id: userId }, data: { role } });
+            return { success: "Role updated!" };
+        } catch (error) {
+            console.log(error);
+            return { error: "Something went wrong", desc: "Please try again later." };
+        }
+    } else {
+        return { error: "Invalid role", desc: "Your role must be ADMIN" };
+    }
+}
