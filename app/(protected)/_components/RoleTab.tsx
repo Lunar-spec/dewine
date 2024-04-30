@@ -63,7 +63,7 @@ const RoleTab = ({ userId }: { userId: string }) => {
                 <RadioGroup
                   onValueChange={field.onChange}
                   defaultValue={field.value}
-                  className="flex flex-col space-y-1"
+                  className="flex flex-col space-y-2 px-2"
                 >
                   <FormItem className="flex items-center space-x-3 space-y-0">
                     <FormControl>
@@ -83,7 +83,9 @@ const RoleTab = ({ userId }: { userId: string }) => {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit" variant={"outline"} className="bg-black/60!">
+          Submit
+        </Button>
       </form>
     </Form>
   );

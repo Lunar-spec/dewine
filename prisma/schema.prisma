@@ -25,6 +25,29 @@ model User {
   address       Address[]
 }
 
+model Product {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  brand       String
+  title       String   @unique
+  description String
+  img         String
+  price       Float
+  year        String
+  createdAt   DateTime @default(now())
+  category    Category @relation(fields: [categoryId], references: [id])
+  size        Float    @default(750)
+  winery      String?
+  alcohol     Float
+  categoryId  String   @db.ObjectId
+}
+
+model Category {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String
+  products     Product[]
+}
+
 model Account {
   id                String  @id @default(auto()) @map("_id") @db.ObjectId
   userId            String  @db.ObjectId

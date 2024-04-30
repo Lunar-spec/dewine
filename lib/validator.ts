@@ -1,8 +1,17 @@
 import { z } from 'zod';
 
-export const productFormSchema = z.object({
-    // TODO : Add more validation for product
-})
+export const createProductSchema = z.object({
+    brand: z.string(),
+    title: z.string().min(1).max(20), // Ensure title is at least 1 character long
+    description: z.string().min(1).max(300),
+    img: z.string(),
+    price: z.number().positive(),
+    year: z.string().min(4),
+    category: z.string(),
+    size: z.number().default(750),
+    winery: z.string().optional(),
+    alcohol: z.number().positive(),
+});
 
 export const newUserSchema = z.object({
     name: z
