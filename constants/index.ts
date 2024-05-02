@@ -14,6 +14,22 @@ export const headerLinks: { text: string; href: string }[] = [
   },
 ];
 
+export const productDefault = {
+  brand: "",
+  title: "",
+  description: "",
+  img: "",
+  year: "",
+  alcohol: "",
+  size: "",
+  price: "",
+  winery: "",
+  category: {
+    _id: "",
+    name: "",
+  },
+}
+
 export const products: Product[] = [
   {
     _id: "1",

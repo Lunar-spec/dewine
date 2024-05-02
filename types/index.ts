@@ -1,16 +1,17 @@
 import { IconType } from "react-icons/lib";
 
-export type Product = {
-    _id: string;
+export interface IProduct {
+    id: string;
     brand: string;
     title: string;
     description: string;
     img: string;
     year: string;
-    alcohol: string;
-    size: string;
-    price: string;
-    winery: string;
+    alcohol: number;
+    size: number;
+    price: number;
+    winery?: string;
+    createdAt: Date
     category: {
         _id: string,
         name: string;

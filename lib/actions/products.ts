@@ -1,11 +1,11 @@
 "use server";
 
 import { z } from "zod";
-import { createProductSchema } from "../validator";
+import { productSchema } from "../validator";
 import { db } from "../db";
 
-export const createNewProduct = async (values: z.infer<typeof createProductSchema>) => {
-    const validatedFields = createProductSchema.safeParse(values);
+export const createNewProduct = async (values: z.infer<typeof productSchema>) => {
+    const validatedFields = productSchema.safeParse(values);
 
     if (!validatedFields.success) return { error: "Invalid fields" };
 
