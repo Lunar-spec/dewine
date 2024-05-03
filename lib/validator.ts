@@ -1,16 +1,21 @@
 import { z } from 'zod';
 
 export const productSchema = z.object({
-    brand: z.string().min(1, { message: 'Brand is required' }).max(20),
-    title: z.string().min(1, { message: 'Title is required' }).max(20), // Ensure title is at least 1 character long
-    description: z.string().min(1, { message: 'Description is required' }).max(300),
-    img: z.string(),
-    price: z.number().positive().min(1, { message: 'Price is required' }),
-    year: z.string().min(4),
-    category: z.string(),
-    size: z.number().default(750),
+    id: z.string(),
+    brand: z.string(),
+    title: z.string(),
+    description: z.string(),
+    img: z.string().url(),
+    year: z.string(),
+    alcohol: z.number(),
+    size: z.number(),
+    price: z.number(),
     winery: z.string().optional(),
-    alcohol: z.number().positive().min(1, { message: 'Alcohol content is required' }),
+    createdAt: z.date(),
+    category: z.object({
+        id: z.string(),
+        name: z.string()
+    })
 });
 
 export const newUserSchema = z.object({

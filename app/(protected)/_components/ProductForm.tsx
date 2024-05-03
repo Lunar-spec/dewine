@@ -57,7 +57,6 @@ const ProductForm = ({ type, product, productId }: ProductFormProps) => {
         //   userId,
         //   path: "/profile",
         // });
-
         // if (newEvent) {
         //   form.reset();
         //   router.push(`/events/${newEvent._id}`);

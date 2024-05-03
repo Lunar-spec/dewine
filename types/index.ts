@@ -13,7 +13,7 @@ export interface IProduct {
     winery?: string;
     createdAt: Date
     category: {
-        _id: string,
+        id: string,
         name: string;
     };
 }
