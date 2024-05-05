@@ -20,9 +20,9 @@ export const productDefault = {
   description: "",
   img: "",
   year: "",
-  alcohol: "",
-  size: "",
-  price: "",
+  alcohol: 11,
+  size: 750,
+  price: 0,
   winery: "",
   category: {
     id: "",
