@@ -33,7 +33,7 @@ export const createNewProduct = async (values: z.infer<typeof productSchema>) =>
                 alcohol,
                 category: {
                     connect: {
-                        id: category
+                        id: category.id
                     }
                 },
             }
@@ -41,7 +41,7 @@ export const createNewProduct = async (values: z.infer<typeof productSchema>) =>
 
         await db.category.update({
             where: {
-                id: category
+                id: category.id
             },
             data: {
                 products: {
@@ -54,5 +54,18 @@ export const createNewProduct = async (values: z.infer<typeof productSchema>) =>
     } catch (error) {
         console.log(error);
         return null;
+    }
+}
+
+export const fetchProductById = async (id: string) => {
+    if (!id) return { error: "No product ID found.", desc: "Please try again." };
+
+    try {
+        const product = await db.product.findUnique({ where: { id } });
+        if (!product) return { error: "Product not found" };
+        return JSON.parse(JSON.stringify(product));
+    } catch (error) {
+        console.log(error);
+        return { error: "Something went wrong", desc: "Please try again later." };
     }
 }

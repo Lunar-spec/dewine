@@ -13,9 +13,10 @@ type ProductFormProps = {
   type: "Create" | "Update";
   product?: IProduct;
   productId?: string;
+  userId?: string;
 };
 
-const ProductForm = ({ type, product, productId }: ProductFormProps) => {
+const ProductForm = ({ type, product, productId, userId }: ProductFormProps) => {
   const [files, setFiles] = useState<File[]>([]);
 
   const router = useRouter();

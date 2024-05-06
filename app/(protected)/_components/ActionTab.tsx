@@ -14,7 +14,7 @@ const ActionTab = ({ userId }: IActionTab) => {
       <DialogTrigger asChild>
         <EllipsisVertical className="h-7 w-7 rounded p-1 m-2 hover:bg-black/10 cursor-pointer" />
       </DialogTrigger>
-      <DialogContent className="md:w-1/2 w-full flex-center bg-black text-white border-none shadow-lg shadow-white/10 rounded">
+      <DialogContent className="md:w-1/2 w-full flex-center bg-black text-white border-none shadow-white/15 shadow-2xl rounded">
         <Tabs
           defaultValue="account"
           className="w-full flex-center flex-col gap-2"
