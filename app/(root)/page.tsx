@@ -103,7 +103,7 @@ const Home = () => {
         </section>
         <section className="flex flex-wrap gap-16 w-full justify-center">
           {products.slice(0, 4).map((product) => (
-            <Card key={product._id} product={product} />
+            <Card key={product.id} product={product} />
           ))}
         </section>
         <Button text="View More" to="/products" />
