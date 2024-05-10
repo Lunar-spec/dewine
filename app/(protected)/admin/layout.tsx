@@ -22,12 +22,12 @@ const ProtectedLayout = ({ children }: { children: React.ReactNode }) => {
   }
 
   return (
-    <div className="flex-center md:flex-row flex-col h-screen">
-      <div className="md:flex md:w-1/6 w-full md:h-full p-4 md:p-0">
+    <div className="flex-center lg:flex-row flex-col lg:h-screen py-2">
+      <div className="lg:flex lg:w-1/6 w-full lg:h-full p-4 lg:p-0">
         <Sidebar />
       </div>
-      <div className="flex-center flex-col md:w-5/6 w-full h-full">
-        <div className="flex-between px-8 h-1/6 w-full">
+      <div className="flex-center flex-col lg:w-5/6 w-full h-full">
+        <div className="lg:flex-between hidden px-6 h-1/6 w-full">
           {adminCards.map((card) => (
             <Card
               key={card.title}
@@ -37,7 +37,7 @@ const ProtectedLayout = ({ children }: { children: React.ReactNode }) => {
             />
           ))}
         </div>
-        <div className="flex h-5/6 px-4 w-full">{children}</div>
+        <div className="flex justify-center h-5/6 px-4 w-full">{children}</div>
       </div>
     </div>
   );

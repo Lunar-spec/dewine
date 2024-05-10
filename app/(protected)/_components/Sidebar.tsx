@@ -12,7 +12,7 @@ const Sidebar = () => {
 
   return (
     <div className="w-full flex-col">
-      <div className="flex md:flex-col gap-4 py-2">
+      <div className="flex lg:flex-col gap-4 py-2 flex-wrap">
         <div className="flex items-center bg-white/5 px-4 py-2 rounded-[1px] sticky justify-start gap-6">
           <Image
             src={user?.image || "/assets/avatar.jpg"}

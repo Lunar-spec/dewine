@@ -11,8 +11,6 @@ type UpdateProductProps = {
   };
 };
 
-// TODO: Add a common single table with props as data and headers for users, orders, products
-
 const EditProduct = async ({ params: { id } }: UpdateProductProps) => {
   const session = await auth();
   if (!session) return redirect("/auth/sign-in");
@@ -29,14 +27,12 @@ const EditProduct = async ({ params: { id } }: UpdateProductProps) => {
   }
 
   return (
-    <div>
-      <ProductForm
-        type="Update"
-        userId={user.id}
-        product={result}
-        productId={result.id}
-      />
-    </div>
+    <ProductForm
+      type="Update"
+      userId={user.id}
+      product={result}
+      productId={result.id}
+    />
   );
 };
 

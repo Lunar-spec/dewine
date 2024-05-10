@@ -2,7 +2,7 @@ import ProductForm from "@/app/(protected)/_components/ProductForm";
 
 const CreateProduct = () => {
   return (
-    <div>
+    <div className="w-full">
       <ProductForm type="Create" />
     </div>
   );
