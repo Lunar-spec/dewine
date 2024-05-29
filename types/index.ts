@@ -7,20 +7,22 @@ export interface IProduct {
     description: string;
     img: string;
     year: string;
-    alcohol: number;
-    size: number;
-    price: number;
+    alcohol: string;
+    size: string;
+    price: string;
     winery?: string;
-    createdAt: Date
-    category: {
-        id: string,
-        name: string;
-    };
+    categoryId: string;
+}
+
+export interface ICategory {
+    id: string,
+    name: string;
+    description: string;
 }
 
 export interface PancakeProps {
     message: string;
-    description: string;
+    description?: string;
     type: "error" | "success" | "info";
 }
 

@@ -1,22 +1,21 @@
 import { z } from 'zod';
 
 export const productSchema = z.object({
-    id: z.string(),
     brand: z.string(),
     title: z.string(),
     description: z.string(),
     img: z.string().url(),
     year: z.string(),
-    alcohol: z.number(),
-    size: z.number(),
-    price: z.number(),
+    alcohol: z.string(),
+    size: z.string(),
+    price: z.string(),
     winery: z.string().optional(),
-    createdAt: z.date(),
-    category: z.object({
-        id: z.string(),
-        name: z.string()
-    })
+    categoryId: z.string(),
 });
+
+export const testSchema = z.object({
+    text: z.string(),
+})
 
 export const newUserSchema = z.object({
     name: z

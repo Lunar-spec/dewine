@@ -34,6 +34,7 @@ const Profile = async () => {
             alt="profile"
             width={200}
             height={200}
+            priority
             className="object-cover h-14 w-14 rounded-full"
           />
           <div>

@@ -25,14 +25,15 @@ const EditProduct = async ({ params: { id } }: UpdateProductProps) => {
       </div>
     );
   }
-
   return (
-    <ProductForm
-      type="Update"
-      userId={user.id}
-      product={result}
-      productId={result.id}
-    />
+    <div className="w-full">
+      <ProductForm
+        type="Update"
+        userId={user.id!}
+        product={result}
+        productId={result.id}
+      />
+    </div>
   );
 };
 

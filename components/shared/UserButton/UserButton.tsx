@@ -29,6 +29,7 @@ const UserButton = () => {
           <AvatarFallback>
             <Image
               src={"/assets/avatar.jpg"}
+              priority
               alt="avatar"
               width={40}
               height={40}

@@ -31,13 +31,13 @@ model Product {
   title       String   @unique
   description String
   img         String
-  price       Float
+  price       String
   year        String
   createdAt   DateTime @default(now())
   category    Category @relation(fields: [categoryId], references: [id])
-  size        Float    @default(750)
+  size        String   @default("750")
   winery      String?
-  alcohol     Float
+  alcohol     String
   categoryId  String   @db.ObjectId
 }
 

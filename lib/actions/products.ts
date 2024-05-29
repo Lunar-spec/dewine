@@ -3,13 +3,20 @@
 import { z } from "zod";
 import { productSchema } from "../validator";
 import { db } from "../db";
+import { revalidatePath } from "next/cache";
+import { IProduct } from "@/types";
 
-export const createNewProduct = async (values: z.infer<typeof productSchema>) => {
-    const validatedFields = productSchema.safeParse(values);
+export const createNewProduct = async ({ product, userId, path }: { product: z.infer<typeof productSchema>, userId: string, path: string }) => {
+    console.log(product, userId, path);
+    const validatedFields = productSchema.safeParse(product);
 
     if (!validatedFields.success) return { error: "Invalid fields" };
 
-    const { brand, title, description, price, img, year, category, size, winery, alcohol } = validatedFields.data;
+    const user = await db.user.findUnique({ where: { id: userId } });
+
+    if (user?.role !== 'ADMIN') return { error: "Only ADMIN can create new products" };
+
+    const { brand, title, description, price, img, year, categoryId, size, winery, alcohol } = validatedFields.data;
 
     const existingProduct = await db.product.findUnique({
         where: {
@@ -33,7 +40,7 @@ export const createNewProduct = async (values: z.infer<typeof productSchema>) =>
                 alcohol,
                 category: {
                     connect: {
-                        id: category.id
+                        id: categoryId
                     }
                 },
             }
@@ -41,7 +48,7 @@ export const createNewProduct = async (values: z.infer<typeof productSchema>) =>
 
         await db.category.update({
             where: {
-                id: category.id
+                id: categoryId
             },
             data: {
                 products: {
@@ -51,6 +58,9 @@ export const createNewProduct = async (values: z.infer<typeof productSchema>) =>
                 }
             }
         })
+
+        // revalidatePath(path);
+        return product;
     } catch (error) {
         console.log(error);
         return null;
@@ -67,5 +77,90 @@ export const fetchProductById = async (id: string) => {
     } catch (error) {
         console.log(error);
         return { error: "Something went wrong", desc: "Please try again later." };
+    }
+}
+
+export const updateProductById = async ({ product, userId, path }: { product: IProduct, userId: string, path: string }) => {
+    const user = await db.user.findUnique({ where: { id: userId } });
+
+    if (user?.role !== 'ADMIN') return { error: "Only ADMIN can update products" };
+
+    const { brand, title, description, price, img, year, categoryId, size, winery, alcohol } = product;
+
+    const toBeUpdatedProduct = await db.product.findUnique({
+        where: {
+            id: product.id
+        }
+    })
+
+    if (!toBeUpdatedProduct) return { error: 'No such product exists' };
+
+    try {
+        await db.product.update({
+            where: {
+                id: product.id
+            },
+            data: {
+                brand,
+                title,
+                description,
+                price,
+                img,
+                year,
+                categoryId,
+                size,
+                winery,
+                alcohol,
+            }
+        })
+
+        await db.category.update({
+            where: {
+                id: categoryId
+            },
+            data: {
+                products: {
+                    connect: {
+                        id: product.id
+                    }
+                }
+            }
+        })
+
+        return { success: 'OK' }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const getAllCategories = async () => {
+    try {
+        const categories = await db.category.findMany();
+        return categories;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const createCategory = async ({ categoryName, categoryDescription }: { categoryName: string, categoryDescription: string }) => {
+    try {
+        const newCategory = await db.category.create({
+            data: {
+                name: categoryName,
+                description: categoryDescription
+            }
+        })
+        return newCategory;
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const getAllProducts = async () => {
+    try {
+        const products = await db.product.findMany();
+        return products;
+    } catch (error) {
+        console.log(error)
     }
 }
