@@ -24,10 +24,7 @@ const Profile = async () => {
 
   return (
     <div className="flex flex-col gap-8 py-4 lg:flex-row w-full justify-center items-center lg:items-start lg:justify-between px-16">
-      <div
-        id="profile"
-        className="lg:w-1/4 p-2 flex gap-8 flex-col sticky top-0"
-      >
+      <div id="profile" className="lg:w-1/4 p-2 flex gap-8 flex-col lg:sticky">
         <div className="flex items-center bg-white/5 px-4 py-2 rounded-[1px] shadow-lg shadow-white/15 sticky justify-start gap-6">
           <Image
             src={user?.image || "/assets/avatar.jpg"}
@@ -48,7 +45,7 @@ const Profile = async () => {
             <p>Orders: 0</p>
           </div>
         </div>
-        <div className="flex items-end bg-white/5 px-4 py-2 rounded-[1px] shadow-lg shadow-white/5 sticky gap-6">
+        <div className="flex items-end bg-white/5 px-4 py-2 rounded-sm shadow-lg shadow-white/5 sticky gap-6">
           <div className="flex flex-col gap-2 w-full">
             <div className="flex justify-between items-center w-full">
               <span className="flex items-center">

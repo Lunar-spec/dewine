@@ -10,7 +10,7 @@ export interface IProduct {
     alcohol: string;
     size: string;
     price: string;
-    winery?: string;
+    winery: string | null;
     categoryId: string;
 }
 

@@ -102,7 +102,7 @@ const Home = () => {
           <span className="border-b border-gray-300 flex-grow"></span>
         </section>
         <section className="flex flex-wrap gap-16 w-full justify-center">
-          {products.slice(0, 4).map((product) => (
+          {products.map((product) => (
             <Card key={product.id} product={product} />
           ))}
         </section>

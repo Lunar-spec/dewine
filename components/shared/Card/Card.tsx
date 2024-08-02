@@ -1,31 +1,29 @@
-import { Product } from "@/types";
+import { IProduct } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 import { IoCartOutline, IoHeartOutline } from "react-icons/io5";
 interface Props {
-  product: Product;
+  product: IProduct;
 }
 const Card = ({ product }: Props) => {
   return (
-    <div className="flex group hover:border border-brand-primary relative flex-col w-72">
+    <div className="flex group hover:border border-brand-primary hover:shadow-2xl hover:shadow-brand-primary/50 relative flex-col w-72">
       <div className="h-full w-full">
         <Image
           src={product.img}
           alt="bottle"
-          width={300}
-          height={300}
+          width={1024}
+          height={1024}
           className="object-contain object-center"
         />
       </div>
       <Link
-        href={`/product_id=${Number(product._id)}`}
+        href={`/products/${product.id}`}
         className="flex-center opacity-0 group-hover:opacity-100 h-full bg-black/20 text-lg absolute w-full bottom-0 backdrop-blur-md transition-all duration-200 ease-in-out flex-col"
       >
         <div className="flex-center flex-col">
           <div className="text-lg">{product.brand}</div>
-          <div className="text-xl">
-            {product.title}
-          </div>
+          <div className="text-xl">{product.title}</div>
         </div>
       </Link>
       <div className="flex absolute w-full justify-between gap-4 p-2">

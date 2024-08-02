@@ -61,8 +61,6 @@ const ProductForm = ({
   });
 
   async function onSubmit(values: z.infer<typeof productSchema>) {
-    console.log(values);
-    alert("called");
     setLoading(true);
     let uploadedImageUrl = values.img;
 
@@ -76,8 +74,6 @@ const ProductForm = ({
       uploadedImageUrl = uploadedImages[0].url;
     }
 
-    console.log(type);
-
     if (type === "Create") {
       try {
         const response = await createNewProduct({
@@ -88,8 +84,6 @@ const ProductForm = ({
           userId,
           path: "/profile",
         });
-
-        console.log(response);
 
         if (isError(response)) {
           Pancake({ message: response.error, type: "error" });
@@ -318,51 +312,3 @@ const ProductForm = ({
 };
 
 export default ProductForm;
-
-// const ProductForm = () => {
-//   const form = useForm<z.infer<typeof testSchema>>({
-//     resolver: zodResolver(testSchema),
-//     defaultValues: {
-//       text: "",
-//     },
-//   });
-
-//   const onSubmit = async (values: z.infer<typeof testSchema>) => {
-//     try {
-//       console.log("yoho", values);
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   };
-
-//   return (
-//     <Form {...form}>
-//       <form
-//         onSubmit={form.handleSubmit(onSubmit)}
-//         className="space-y-6 flex-center flex-col"
-//       >
-//         <div className="flex-between lg:px-14 px-4 flex-col gap-4 lg:gap-14 lg:flex-row h-full w-full">
-//           <FormField
-//             control={form.control}
-//             name="text"
-//             render={({ field }) => (
-//               <FormItem className="flex-center flex-col">
-//                 <FormLabel>Product Image</FormLabel>
-//                 <FormControl className="h-64">
-//                   <Input placeholder="Text" {...field} />
-//                 </FormControl>
-//                 <FormDescription>Random Text</FormDescription>
-//                 <FormMessage />
-//               </FormItem>
-//             )}
-//           />
-//         </div>
-//         <Button disabled={form.formState.isSubmitting} type="submit">
-//           Submit
-//         </Button>
-//       </form>
-//     </Form>
-//   );
-// };
-
-// export default ProductForm;

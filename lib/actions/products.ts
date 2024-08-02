@@ -7,7 +7,6 @@ import { revalidatePath } from "next/cache";
 import { IProduct } from "@/types";
 
 export const createNewProduct = async ({ product, userId, path }: { product: z.infer<typeof productSchema>, userId: string, path: string }) => {
-    console.log(product, userId, path);
     const validatedFields = productSchema.safeParse(product);
 
     if (!validatedFields.success) return { error: "Invalid fields" };
@@ -59,7 +58,7 @@ export const createNewProduct = async ({ product, userId, path }: { product: z.i
             }
         })
 
-        // revalidatePath(path);
+        revalidatePath(path);
         return product;
     } catch (error) {
         console.log(error);
@@ -127,6 +126,7 @@ export const updateProductById = async ({ product, userId, path }: { product: IP
             }
         })
 
+        revalidatePath(path);
         return { success: 'OK' }
     } catch (error) {
         console.log(error);
@@ -158,8 +158,22 @@ export const createCategory = async ({ categoryName, categoryDescription }: { ca
 
 export const getAllProducts = async () => {
     try {
-        const products = await db.product.findMany();
+        const products = await db.product.findMany({ include: { category: true } });
         return products;
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const deleteProduct = async (id: string, userId: string) => {
+    const user = await db.user.findUnique({ where: { id: userId } });
+
+    if (user?.role !== 'ADMIN') return { error: "Only ADMIN can delete products" };
+
+    try {
+        await db.product.delete({ where: { id } });
+        revalidatePath('/products');
+        return { success: 'OK' };
     } catch (error) {
         console.log(error)
     }
