@@ -36,7 +36,7 @@ model Product {
   createdAt   DateTime @default(now())
   category    Category @relation(fields: [categoryId], references: [id])
   size        String   @default("750")
-  winery      String?
+  winery      String
   alcohol     String
   categoryId  String   @db.ObjectId
 }
