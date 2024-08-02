@@ -9,7 +9,7 @@ export const productSchema = z.object({
     alcohol: z.string(),
     size: z.string(),
     price: z.string(),
-    winery: z.string().optional(),
+    winery: z.string(),
     categoryId: z.string(),
 });
 
